@@ -1,0 +1,6 @@
+rootProject.name = 'AuroraChat'
+
+include ':app', ':aurora-imui-react-native'
+project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
+include ':customviews'
+project(':customviews').projectDir = new File(rootProject.projectDir, '../android/customviews')
