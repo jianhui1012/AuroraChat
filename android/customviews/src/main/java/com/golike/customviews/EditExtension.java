@@ -1,5 +1,6 @@
 package com.golike.customviews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -69,7 +70,8 @@ public class EditExtension  extends LinearLayout {
     private ImageView mPluginToggle;
     private ImageView mVoiceToggle;
     private OnClickListener mVoiceToggleClickListener;
-    private Fragment mFragment;
+    //private Fragment mFragment;
+    private Activity mActivity;
     private IExtensionClickListener mExtensionClickListener;
     private ConversationType mConversationType;
     private String mTargetId;
@@ -408,13 +410,17 @@ public class EditExtension  extends LinearLayout {
 
     }
 
-    public void setFragment(Fragment fragment) {
-        this.mFragment = fragment;
+    public void setActivity(Activity activity) {
+        this.mActivity = activity;
     }
 
-    public Fragment getFragment() {
-        return this.mFragment;
-    }
+//    public void setFragment(Fragment fragment) {
+//        this.mFragment = fragment;
+//    }
+
+//    public Fragment getFragment() {
+//        return this.mFragment;
+//    }
 
     public ConversationType getConversationType() {
         return this.mConversationType;
@@ -458,7 +464,7 @@ public class EditExtension  extends LinearLayout {
             throw new IllegalArgumentException("requestCode does not over 255.");
         } else {
             int position = this.mPluginAdapter.getPluginPosition(pluginModule);
-            this.mFragment.startActivityForResult(intent, (position + 1 << 8) + (requestCode & 255));
+            this.mActivity.startActivityForResult(intent, (position + 1 << 8) + (requestCode & 255));
         }
     }
 
@@ -471,7 +477,7 @@ public class EditExtension  extends LinearLayout {
                     EditExtension.this.mExtensionClickListener.onPluginClicked(pluginModule, position);
                 }
 
-                pluginModule.onClick(EditExtension.this.mFragment, EditExtension.this);
+                pluginModule.onClick(EditExtension.this.mActivity, EditExtension.this);
             }
         });
         this.mEmotionTabAdapter = new EmoticonTabAdapter();

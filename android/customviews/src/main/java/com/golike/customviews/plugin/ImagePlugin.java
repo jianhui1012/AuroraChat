@@ -1,5 +1,6 @@
 package com.golike.customviews.plugin;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -31,12 +32,12 @@ public class ImagePlugin implements IPluginModule {
         return context.getString(R.string.rc_plugin_image);
     }
 
-    public void onClick(Fragment currentFragment, EditExtension extension) {
+    public void onClick(Activity currentActivity, EditExtension extension) {
         String[] permissions = new String[]{"android.permission.READ_EXTERNAL_STORAGE"};
-        if(PermissionCheckUtil.requestPermissions(currentFragment, permissions)) {
+        if(PermissionCheckUtil.requestPermissions(currentActivity, permissions)) {
             this.conversationType = extension.getConversationType();
             this.targetId = extension.getTargetId();
-            Intent intent = new Intent(currentFragment.getActivity(), PictureSelectorActivity.class);
+            Intent intent = new Intent(currentActivity, PictureSelectorActivity.class);
             extension.startActivityForPluginResult(intent, 23, this);
         }
     }

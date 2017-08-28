@@ -29,6 +29,7 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
     private AutoRefreshListView mChatList;
     private View mMsgListView;
     private MessageListAdapter mListAdapter;
+    private EditExtension mEditExtension;
 
     public ChatView(Context context) {
         super(context);
@@ -60,6 +61,7 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
 
     public void initViews() {
         this.mChatUIView = LayoutInflater.from(this.getContext()).inflate(R.layout.rc_fr_conversation, (ViewGroup) null);
+        this.mEditExtension = this.findViewById(mChatUIView,R.id.rc_extension);
         this.mMsgListView = this.findViewById(mChatUIView, R.id.rc_layout_msg_list);
         this.mChatList = this.findViewById(mMsgListView, R.id.rc_list);
         this.mChatList.requestDisallowInterceptTouchEvent(true);
@@ -69,11 +71,6 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
         this.mChatList.setAdapter(this.mListAdapter);
         this.mChatList.setOnRefreshListener(new AutoRefreshListView.OnRefreshListener() {
             public void onRefreshFromStart() {
-//                if(ConversationFragment.this.mHasMoreLocalMessages) {
-//                    ConversationFragment.this.getHistoryMessage(ConversationFragment.this.mConversationType, ConversationFragment.this.mTargetId, 30, 1);
-//                } else {
-//                    ConversationFragment.this.getRemoteHistoryMessages(ConversationFragment.this.mConversationType, ConversationFragment.this.mTargetId, 10);
-//                }
             }
             public void onRefreshFromEnd() {
             }
@@ -82,6 +79,15 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
         this.addView(mChatUIView);
     }
 
+
+    public EditExtension getEditExtension(){
+          if(mChatUIView==null)
+          {
+              this.mChatUIView = LayoutInflater.from(this.getContext()).inflate(R.layout.rc_fr_conversation, (ViewGroup) null);
+              this.mEditExtension = this.findViewById(mChatUIView,R.id.rc_extension);
+          }
+        return mEditExtension;
+    }
 
     //订阅方法，当接收到事件的时候，会调用该方法
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -121,4 +127,5 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
     }
+
 }
