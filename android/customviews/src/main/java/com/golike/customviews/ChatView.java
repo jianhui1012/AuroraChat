@@ -81,11 +81,6 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
 
 
     public EditExtension getEditExtension(){
-          if(mChatUIView==null)
-          {
-              this.mChatUIView = LayoutInflater.from(this.getContext()).inflate(R.layout.rc_fr_conversation, (ViewGroup) null);
-              this.mEditExtension = this.findViewById(mChatUIView,R.id.rc_extension);
-          }
         return mEditExtension;
     }
 
