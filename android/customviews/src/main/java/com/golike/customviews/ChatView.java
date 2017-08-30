@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.golike.customviews.AutoRefreshListView.Mode;
 import com.golike.customviews.adapter.MessageListAdapter;
@@ -76,6 +77,7 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
             }
         });
         mChatList.addOnScrollListener(this);
+        mChatUIView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT));
         this.addView(mChatUIView);
     }
 
@@ -91,7 +93,7 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
         uiMsg.setSentStatus(Message.SentStatus.SENT);
         this.mListAdapter.add(uiMsg);
         this.mListAdapter.notifyDataSetChanged();
-        //this.mChatList.smoothScrollToPosition(this.mChatList.getCount());
+        this.mChatList.smoothScrollToPosition(this.mChatList.getCount());
     }
 
     protected <T extends View> T findViewById(View view, int id) {
@@ -121,6 +123,28 @@ public class ChatView extends FrameLayout implements AbsListView.OnScrollListene
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+    }
+
+
+    private final Runnable measureAndLayout = new Runnable() {
+        @Override
+        public void run() {
+            measure(
+                    MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
+            layout(getLeft(), getTop(), getRight(), getBottom());
+        }
+    };
+
+    @Override
+    public void requestLayout() {
+        super.requestLayout();
+
+        // The spinner relies on a measure + layout pass happening after it calls requestLayout().
+        // Without this, the widget never actually changes the selection and doesn't call the
+        // appropriate listeners. Since we override onLayout in our ViewGroups, a layout pass never
+        // happens after a call to requestLayout, so we simulate one here.
+        post(measureAndLayout);
     }
 
 }

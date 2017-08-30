@@ -58,6 +58,7 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
 
     @Override
     protected ChatView createViewInstance(ThemedReactContext reactContext) {
+        reactContext.addActivityEventListener(mActivityEventListener);
         activity=reactContext.getCurrentActivity();
         mChatView=new ChatView(activity);
         mEditExtension=mChatView.getEditExtension();
@@ -189,7 +190,7 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
             }
         });
         mEditExtension.setActivity(activity);
-        reactContext.addActivityEventListener(mActivityEventListener);
+
         return mChatView;
     }
 

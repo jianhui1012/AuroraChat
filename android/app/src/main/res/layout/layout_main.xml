@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6"
+        android:text="ChatUI"
         android:hint="请输入模块"
         />
     <Button
