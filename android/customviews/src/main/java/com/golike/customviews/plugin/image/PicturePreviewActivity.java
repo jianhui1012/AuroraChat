@@ -28,9 +28,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.golike.customviews.R;
+import com.golike.customviews.photoview.PhotoView;
+import com.golike.customviews.photoview.PhotoViewAttacher;
 import com.golike.customviews.plugin.image.AlbumBitmapCacheHelper.ILoadImageCallback;
 import com.golike.customviews.plugin.image.PictureSelectorActivity.PicItemHolder;
 import com.golike.customviews.plugin.image.PictureSelectorActivity.PicItem;
+
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by admin on 2017/8/10.
@@ -311,55 +316,55 @@ public class PicturePreviewActivity extends Activity {
         }
 
         public Object instantiateItem(ViewGroup container, int position) {
-//            final PhotoView photoView = new PhotoView(container.getContext());
-//            photoView.setOnViewTapListener(new OnViewTapListener() {
-//                public void onViewTap(View view, float x, float y) {
-//                    PicturePreviewActivity.this.mFullScreen = !PicturePreviewActivity.this.mFullScreen;
-//                    View decorView;
-//                    byte uiOptions;
-//                    if(PicturePreviewActivity.this.mFullScreen) {
-//                        if(Build.VERSION.SDK_INT < 16) {
-//                            PicturePreviewActivity.this.getWindow().setFlags(1024, 1024);
-//                        } else {
-//                            decorView = PicturePreviewActivity.this.getWindow().getDecorView();
-//                            uiOptions = 4;
-//                            decorView.setSystemUiVisibility(uiOptions);
-//                        }
-//
-//                        PicturePreviewActivity.this.mToolbarTop.setVisibility(4);
-//                        PicturePreviewActivity.this.mToolbarBottom.setVisibility(4);
-//                    } else {
-//                        if(Build.VERSION.SDK_INT < 16) {
-//                            PicturePreviewActivity.this.getWindow().setFlags(1024, 1024);
-//                        } else {
-//                            decorView = PicturePreviewActivity.this.getWindow().getDecorView();
-//                            uiOptions = 0;
-//                            decorView.setSystemUiVisibility(uiOptions);
-//                        }
-//
-//                        PicturePreviewActivity.this.mToolbarTop.setVisibility(0);
-//                        PicturePreviewActivity.this.mToolbarBottom.setVisibility(0);
-//                    }
-//
-//                }
-//            });
-//            container.addView(photoView, -1, -1);
-//            String path = ((PicItem)PicturePreviewActivity.this.mItemList.get(position)).uri;
-//            AlbumBitmapCacheHelper.getInstance().removePathFromShowlist(path);
-//            AlbumBitmapCacheHelper.getInstance().addPathToShowlist(path);
-//            Bitmap bitmap = AlbumBitmapCacheHelper.getInstance().getBitmap(path, 0, 0, new ILoadImageCallback() {
-//                public void onLoadImageCallBack(Bitmap bitmap, String p, Object... objects) {
-//                    if(bitmap != null) {
-//                        photoView.setImageBitmap(bitmap);
-//                    }
-//                }
-//            }, new Object[]{Integer.valueOf(position)});
-//            if(bitmap != null) {
-//                photoView.setImageBitmap(bitmap);
-//            } else {
-//                photoView.setImageResource(R.drawable.rc_grid_image_default);
-//            }
-//
+            final PhotoView photoView = new PhotoView(container.getContext());
+            photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                public void onViewTap(View view, float x, float y) {
+                    PicturePreviewActivity.this.mFullScreen = !PicturePreviewActivity.this.mFullScreen;
+                    View decorView;
+                    byte uiOptions;
+                    if(PicturePreviewActivity.this.mFullScreen) {
+                        if(Build.VERSION.SDK_INT < 16) {
+                            PicturePreviewActivity.this.getWindow().setFlags(1024, 1024);
+                        } else {
+                            decorView = PicturePreviewActivity.this.getWindow().getDecorView();
+                            uiOptions = 4;
+                            decorView.setSystemUiVisibility(uiOptions);
+                        }
+
+                        PicturePreviewActivity.this.mToolbarTop.setVisibility(INVISIBLE);
+                        PicturePreviewActivity.this.mToolbarBottom.setVisibility(INVISIBLE);
+                    } else {
+                        if(Build.VERSION.SDK_INT < 16) {
+                            PicturePreviewActivity.this.getWindow().setFlags(1024, 1024);
+                        } else {
+                            decorView = PicturePreviewActivity.this.getWindow().getDecorView();
+                            uiOptions = 0;
+                            decorView.setSystemUiVisibility(uiOptions);
+                        }
+
+                        PicturePreviewActivity.this.mToolbarTop.setVisibility(VISIBLE);
+                        PicturePreviewActivity.this.mToolbarBottom.setVisibility(VISIBLE);
+                    }
+
+                }
+            });
+            container.addView(photoView, -1, -1);
+            String path = ((PicItem)PicturePreviewActivity.this.mItemList.get(position)).uri;
+            AlbumBitmapCacheHelper.getInstance().removePathFromShowlist(path);
+            AlbumBitmapCacheHelper.getInstance().addPathToShowlist(path);
+            Bitmap bitmap = AlbumBitmapCacheHelper.getInstance().getBitmap(path, 0, 0, new ILoadImageCallback() {
+                public void onLoadImageCallBack(Bitmap bitmap, String p, Object... objects) {
+                    if(bitmap != null) {
+                        photoView.setImageBitmap(bitmap);
+                    }
+                }
+            }, new Object[]{Integer.valueOf(position)});
+            if(bitmap != null) {
+                photoView.setImageBitmap(bitmap);
+            } else {
+                photoView.setImageResource(R.drawable.rc_grid_image_default);
+            }
+
           return null;
         }
 

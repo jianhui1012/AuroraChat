@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -42,6 +43,7 @@ import java.util.List;
  */
 
 public class RNChatViewManager extends ViewGroupManager<ChatView> {
+    private ReactApplicationContext mReactContext;
     private  Activity activity;
     private ChatView mChatView;
     private static final String REACT_CHAT_INPUT = "RCTChatView";
@@ -56,9 +58,14 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
         return REACT_CHAT_INPUT;
     }
 
+    public  RNChatViewManager(ReactApplicationContext reactContext){
+        this.mReactContext=reactContext;
+    }
+
     @Override
     protected ChatView createViewInstance(ThemedReactContext reactContext) {
-        reactContext.addActivityEventListener(mActivityEventListener);
+        //ReactApplicationContext设置onActivityResult回调
+        this.mReactContext.addActivityEventListener(mActivityEventListener);
         activity=reactContext.getCurrentActivity();
         mChatView=new ChatView(activity);
         mEditExtension=mChatView.getEditExtension();
@@ -98,7 +105,7 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
             }
 
             @Override
-            public void onSwitchToggleClick(View var1, ViewGroup var2) {
+            public void onSwitchToggleClick(View v, ViewGroup var2) {
 
             }
 
@@ -135,12 +142,12 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
             }
 
             @Override
-            public void onEmoticonToggleClick(View var1, ViewGroup var2) {
+            public void onEmoticonToggleClick(View v, ViewGroup viewGroup) {
 
             }
 
             @Override
-            public void onPluginToggleClick(View var1, ViewGroup var2) {
+            public void onPluginToggleClick(View v, ViewGroup viewGroup) {
 
             }
 
@@ -150,12 +157,12 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
             }
 
             @Override
-            public void onEditTextClick(EditText var1) {
+            public void onEditTextClick(EditText editText) {
 
             }
 
             @Override
-            public boolean onKey(View var1, int var2, KeyEvent var3) {
+            public boolean onKey(View view, int var2, KeyEvent keyEvent) {
                 return false;
             }
 
@@ -170,7 +177,7 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
             }
 
             @Override
-            public void onPluginClicked(IPluginModule var1, int var2) {
+            public void onPluginClicked(IPluginModule pluginModule, int var2) {
 
             }
 
@@ -190,7 +197,6 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
             }
         });
         mEditExtension.setActivity(activity);
-
         return mChatView;
     }
 

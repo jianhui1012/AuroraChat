@@ -260,7 +260,7 @@ public class AlbumBitmapCacheHelper {
             int xS;
             int sampleSize1;
             if(widthLimit == 0 && heightLimit == 0) {
-                sampleSize1 = this.computeScale(e, ((WindowManager)(this.mContext.getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay().getWidth(), ((WindowManager)(this.mContext.getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay().getWidth());
+                sampleSize1 = this.computeScale(e, ((WindowManager)((WindowManager)this.mContext.getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay().getWidth(), ((WindowManager)((WindowManager)this.mContext.getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay().getWidth());
             } else {
                 int matrix;
                 if(orientation == 6 || orientation == 8 || orientation == 5 || orientation == 7) {
@@ -365,4 +365,5 @@ public class AlbumBitmapCacheHelper {
         void onLoadImageCallBack(Bitmap var1, String var2, Object... var3);
     }
 }
+
 

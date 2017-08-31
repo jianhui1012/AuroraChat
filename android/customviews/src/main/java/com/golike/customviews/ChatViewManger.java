@@ -7,6 +7,7 @@ import com.golike.customviews.model.MessageContent;
 import com.golike.customviews.plugin.image.AlbumBitmapCacheHelper;
 import com.golike.customviews.widget.provider.IContainerItemProvider.*;
 import com.golike.customviews.widget.provider.ImageMessageItemProvider;
+import com.golike.customviews.widget.provider.RichContentMessageItemProvider;
 import com.golike.customviews.widget.provider.TextMessageItemProvider;
 import com.golike.customviews.widget.provider.VoiceMessageItemProvider;
 
@@ -24,6 +25,7 @@ public class ChatViewManger {
         registerMessageTemplate(new TextMessageItemProvider());
         registerMessageTemplate(new ImageMessageItemProvider());
         registerMessageTemplate(new VoiceMessageItemProvider(context));
+        registerMessageTemplate(new RichContentMessageItemProvider());
         EditExtensionManager.init(context, "xxxxx");
         EditExtensionManager.getInstance().registerExtensionModule(new DefaultExtensionModule());
         AlbumBitmapCacheHelper.init(context);
