@@ -16,6 +16,9 @@ import android.widget.EditText;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -37,28 +40,37 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by admin on 2017/8/25.
  */
 
-public class RNChatViewManager extends ViewGroupManager<ChatView> {
+public class RNChatUIManager extends ViewGroupManager<ChatView> {
     private ReactApplicationContext mReactContext;
     private  Activity activity;
     private ChatView mChatView;
-    private static final String REACT_CHAT_INPUT = "RCTChatView";
+    private static final String REACT_CHAT_INPUT = "RCTChatUI";
     private EditExtension mEditExtension;
 
     private float mLastTouchY;
     private boolean mUpDirection;
     private float mOffsetLimit;
     private boolean finishing = false;
+    //消息类型
+    public static final int SEND_TEXT_MSG = 1;
+    public static final int SEND_VOICE_MSG = 2;
+    public static final int SEND_PIC_MSG = 3;
+    public static final int SEND_RICHTEXT_MSG = 4;
+    public static final int SEND_LOCATION_MSG = 5;
     @Override
     public String getName() {
         return REACT_CHAT_INPUT;
     }
 
-    public  RNChatViewManager(ReactApplicationContext reactContext){
+    public RNChatUIManager(ReactApplicationContext reactContext){
         this.mReactContext=reactContext;
     }
 
@@ -219,4 +231,47 @@ public class RNChatViewManager extends ViewGroupManager<ChatView> {
     };
 
 
+    @Override
+    public @Nullable
+    Map<String, Integer> getCommandsMap() {
+        return MapBuilder.of(
+                "sendTextMsg", SEND_TEXT_MSG,
+                "sendVoiceMsg", SEND_VOICE_MSG,
+                "sendPicMsg", SEND_PIC_MSG,
+                "sendRichTextMsg", SEND_RICHTEXT_MSG,
+                "sendLocationMsg", SEND_LOCATION_MSG
+        );
+    }
+
+    @Override
+    public void receiveCommand(ChatView chatView, int commandId, @Nullable ReadableArray args) {
+        switch (commandId) {
+            case SEND_TEXT_MSG:
+                if (args != null && args.size() > 0) {
+                    ReadableMap msg = args.getMap(0);
+                    String text = msg.hasKey("content") ? msg.getString("content") : null;
+                    TextMessage textMessage = TextMessage.obtain(text);
+                    textMessage.setUserInfo(new UserInfo("1001", "golike", Uri.parse("http://img.17bangtu.com/dfile?md5=99d16d4817174715ff86e3ef1e618ad5:200x200")));
+                    Message message = Message.obtain("xxx", Conversation.ConversationType.PRIVATE, textMessage);
+                    message.setMessageDirection(Message.MessageDirection.SEND);
+                    EventBus.getDefault().post(message);
+                }
+                break;
+            case SEND_VOICE_MSG:
+                if (args != null && args.size() > 0) {
+                    ReadableMap msg = args.getMap(0);
+                }
+                break;
+            case SEND_PIC_MSG:
+                if (args != null && args.size() > 0) {
+                    ReadableMap msg = args.getMap(0);
+                }
+                break;
+            case SEND_RICHTEXT_MSG:
+                if (args != null && args.size() > 0) {
+                    ReadableMap msg = args.getMap(0);
+                }
+                break;
+        }
+    }
 }

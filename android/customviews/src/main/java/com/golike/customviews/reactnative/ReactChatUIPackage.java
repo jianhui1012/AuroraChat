@@ -29,7 +29,7 @@ public class ReactChatUIPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         List<ViewManager> viewManagers = new ArrayList<>();
-        viewManagers.add(new RNChatViewManager(reactContext));
+        viewManagers.add(new RNChatUIManager(reactContext));
         return  viewManagers;
     }
 }

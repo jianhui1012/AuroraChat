@@ -4,19 +4,36 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View, Button
 } from 'react-native';
-import ChatView from '../modules/ChatView'
+import ChatView from '../modules/ChatUI'
 
 export default class ChatUI extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            chatview:null
+        };
+    }
+
+    componentDidMount() {
+
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <ChatView style={{height:'100%',width:'100%'}}/>
+                <ChatView ref={(obj) => this.state.chatview = obj} style={{height:'90%',width:'100%'}}/>
+                <Button onPress={()=>{
+             this.state.chatview.sendTextMsg({
+            "type": "text",
+            "from": "test",
+            "content": "Hello!",
+            "ts": "500"});}} title="Press Me"/>
             </View>
         );
     }
