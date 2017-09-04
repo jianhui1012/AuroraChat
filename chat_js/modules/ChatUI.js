@@ -5,7 +5,6 @@
 import React  from 'react';
 import { requireNativeComponent, View ,findNodeHandle} from 'react-native';
 var UIManager = require('UIManager');
-
 const CHATVIEW_REF = 'RCTChatUI';
 class ChatView extends React.Component {
     getChatViewHandle(){

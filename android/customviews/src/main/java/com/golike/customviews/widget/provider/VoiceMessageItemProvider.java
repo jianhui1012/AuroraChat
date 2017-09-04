@@ -2,7 +2,6 @@ package com.golike.customviews.widget.provider;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -16,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.golike.customviews.R;
-import com.golike.customviews.RongContext;
+import com.golike.customviews.ChatContext;
 import com.golike.customviews.manager.AudioPlayManager;
 import com.golike.customviews.manager.AudioRecordManager;
 import com.golike.customviews.manager.IAudioPlayListener;
@@ -26,8 +25,6 @@ import com.golike.customviews.model.Message.MessageDirection;
 import com.golike.customviews.model.UIMessage;
 import com.golike.customviews.model.VoiceMessage;
 import com.golike.customviews.widget.provider.IContainerItemProvider.MessageProvider;
-
-import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -151,7 +148,7 @@ public class VoiceMessageItemProvider extends MessageProvider<VoiceMessage> {
     }
 
     public Spannable getContentSummary(VoiceMessage data) {
-        return new SpannableString(RongContext.getInstance().getString(R.string.rc_message_content_voice));
+        return new SpannableString(ChatContext.getInstance().getString(R.string.rc_message_content_voice));
     }
 
     @TargetApi(8)

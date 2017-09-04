@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.golike.customviews.R;
-import com.golike.customviews.RongContext;
+import com.golike.customviews.ChatContext;
 import com.golike.customviews.model.Conversation.ConversationType;
 import com.golike.customviews.model.Message;
 import com.golike.customviews.model.Message.MessageDirection;
@@ -78,12 +78,12 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
             } else {
                 final Object provider;
                 ProviderTag tag;
-                if(RongContext.getInstance() == null || data == null || data.getContent() == null) {
+                if(ChatContext.getInstance() == null || data == null || data.getContent() == null) {
                         Log.e("MessageListAdapter", "Message is null !");
                         return;
                 }
-                provider = RongContext.getInstance().getMessageTemplate(data.getContent().getClass());
-                tag = RongContext.getInstance().getMessageProviderTag(data.getContent().getClass());
+                provider = ChatContext.getInstance().getMessageTemplate(data.getContent().getClass());
+                tag = ChatContext.getInstance().getMessageProviderTag(data.getContent().getClass());
                 if(provider == null) {
                     Log.e("MessageListAdapter", data.getObjectName() + " message provider not found !");
                         return;

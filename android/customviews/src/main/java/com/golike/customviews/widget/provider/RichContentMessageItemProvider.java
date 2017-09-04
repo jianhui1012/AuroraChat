@@ -1,8 +1,6 @@
 package com.golike.customviews.widget.provider;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.golike.customviews.R;
-import com.golike.customviews.RongContext;
+import com.golike.customviews.ChatContext;
 import com.golike.customviews.model.Message;
 import com.golike.customviews.model.ProviderTag;
 import com.golike.customviews.model.RichContentMessage;
@@ -80,7 +78,7 @@ public class RichContentMessageItemProvider extends MessageProvider<RichContentM
     }
 
     public Spannable getContentSummary(RichContentMessage data) {
-        return new SpannableString(RongContext.getInstance().getResources().getString(R.string.rc_message_content_rich_text));
+        return new SpannableString(ChatContext.getInstance().getResources().getString(R.string.rc_message_content_rich_text));
     }
 
     private static class ViewHolder {

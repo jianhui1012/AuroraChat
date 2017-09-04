@@ -21,7 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.golike.customviews.R;
-import com.golike.customviews.RongContext;
+import com.golike.customviews.ChatContext;
 import com.golike.customviews.model.Conversation.ConversationType;
 import com.golike.customviews.model.UserInfo;
 import com.golike.customviews.model.VoiceMessage;
@@ -73,7 +73,7 @@ public class AudioRecordManager implements Handler.Callback {
         Log.d("AudioRecordManager", "AudioRecordManager");
         if(Build.VERSION.SDK_INT < 21) {
             try {
-                TelephonyManager e = (TelephonyManager) RongContext.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+                TelephonyManager e = (TelephonyManager) ChatContext.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
                 e.listen(new PhoneStateListener() {
                     public void onCallStateChanged(int state, String incomingNumber) {
                         switch(state) {

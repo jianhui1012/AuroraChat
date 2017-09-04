@@ -1,20 +1,15 @@
 package com.golike.customviews.widget.provider;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.text.ClipboardManager;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.golike.customviews.R;
-import com.golike.customviews.RongContext;
 import com.golike.customviews.emoticon.AndroidEmoji;
 import com.golike.customviews.model.ProviderTag;
 import com.golike.customviews.model.TextMessage;

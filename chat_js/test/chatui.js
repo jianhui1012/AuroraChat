@@ -27,13 +27,36 @@ export default class ChatUI extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ChatView ref={(obj) => this.state.chatview = obj} style={{height:'90%',width:'100%'}}/>
-                <Button onPress={()=>{
+                <ChatView ref={(obj) => this.state.chatview = obj} style={{height:'70%',width:'100%'}}/>
+                <View  style={{width:'100%'}}>
+                <Button style={styles.btn} onPress={()=>{
              this.state.chatview.sendTextMsg({
             "type": "text",
             "from": "test",
             "content": "Hello!",
-            "ts": "500"});}} title="Press Me"/>
+            "ts": "500"});}} title="发送文本"/>
+                    <View style={styles.line}/>
+                <Button  style={styles.btn}  onPress={()=>{
+             this.state.chatview.sendVoiceMsg({
+            "type": "text",
+            "from": "test",
+            "content": "Hello!",
+            "ts": "500"});}} title="发送语音"/>
+                    <View style={styles.line}/>
+                <Button  style={styles.btn}  onPress={()=>{
+             this.state.chatview.sendPicMsg({
+            "type": "text",
+            "from": "test",
+            "content": "sendPicMsg!",
+            "ts": "500"});}} title="发送图片"/>
+                    <View style={styles.line}/>
+                <Button  style={styles.btn}  onPress={()=>{
+             this.state.chatview.sendRichTextMsg({
+            "type": "text",
+            "from": "test",
+            "content": "sendRichTextMsg!",
+            "ts": "500"});}} title="发送富文本"/>
+                </View>
             </View>
         );
     }
@@ -44,10 +67,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
+    btn: {
+
+    },
+    line: {
+        height: 10,
     },
     instructions: {
         textAlign: 'center',

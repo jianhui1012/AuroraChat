@@ -1,12 +1,8 @@
 package com.golike.customviews.widget.provider;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.service.carrier.CarrierMessagingService;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.golike.customviews.R;
-import com.golike.customviews.RongContext;
+import com.golike.customviews.ChatContext;
 import com.golike.customviews.model.Message.SentStatus;
 import com.golike.customviews.model.Message;
 import com.golike.customviews.model.UIMessage;
@@ -85,7 +81,7 @@ public class ImageMessageItemProvider extends MessageProvider<ImageMessage> {
     }
 
     public Spannable getContentSummary(ImageMessage data) {
-        return new SpannableString(RongContext.getInstance().getResources().getString(R.string.rc_message_content_image));
+        return new SpannableString(ChatContext.getInstance().getResources().getString(R.string.rc_message_content_image));
     }
 
     private static class ViewHolder {
