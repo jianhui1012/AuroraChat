@@ -29,6 +29,7 @@ import com.golike.customviews.model.VoiceMessage;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.Calendar;
 
 /**
  * Created by admin on 2017/8/10.
@@ -334,7 +335,7 @@ public class AudioRecordManager implements Handler.Callback {
             VoiceMessage voiceMessage = VoiceMessage.obtain(this.mAudioPath, duration);
             voiceMessage.setUserInfo(new UserInfo("1001", "golike", Uri.parse("http://img.17bangtu.com/dfile?md5=99d16d4817174715ff86e3ef1e618ad5:200x200")));
             com.golike.customviews.model.Message message = com.golike.customviews.model.Message.obtain("xxx", ConversationType.PRIVATE, voiceMessage);
-            //message.setSentStatus(SentStatus.SENDING);
+            message.setSentTime(Calendar.getInstance().getTimeInMillis());
             message.setMessageDirection(com.golike.customviews.model.Message.MessageDirection.SEND);
             EventBus.getDefault().post(message);
         }

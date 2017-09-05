@@ -38,6 +38,7 @@ import com.golike.customviews.utilities.PermissionCheckUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +90,7 @@ public class RNChatUIManager extends ViewGroupManager<ChatView> {
                     TextMessage textMessage = TextMessage.obtain(text);
                     textMessage.setUserInfo(new UserInfo("1001", "golike", Uri.parse("http://img.17bangtu.com/dfile?md5=99d16d4817174715ff86e3ef1e618ad5:200x200")));
                     Message message = Message.obtain("xxx", Conversation.ConversationType.PRIVATE, textMessage);
+                    message.setSentTime(Calendar.getInstance().getTimeInMillis());
                     message.setMessageDirection(Message.MessageDirection.SEND);
                     EventBus.getDefault().post(message);
                 } else {
@@ -105,7 +107,7 @@ public class RNChatUIManager extends ViewGroupManager<ChatView> {
                     ImageMessage content = ImageMessage.obtain(image, image, isFull);
                     content.setUserInfo(new UserInfo("1001", "golike", Uri.parse("http://img.17bangtu.com/dfile?md5=99d16d4817174715ff86e3ef1e618ad5:200x200")));
                     Message message = Message.obtain("xxx", Conversation.ConversationType.PRIVATE, content);
-                    //message.setSentStatus(SentStatus.SENDING);
+                    message.setSentTime(Calendar.getInstance().getTimeInMillis());
                     message.setMessageDirection(Message.MessageDirection.SEND);
                     EventBus.getDefault().post(message);
                 }
@@ -253,7 +255,8 @@ public class RNChatUIManager extends ViewGroupManager<ChatView> {
                     TextMessage textMessage = TextMessage.obtain(text);
                     textMessage.setUserInfo(new UserInfo("1001", "golike", Uri.parse("http://img.17bangtu.com/dfile?md5=99d16d4817174715ff86e3ef1e618ad5:200x200")));
                     Message message = Message.obtain("xxx", Conversation.ConversationType.PRIVATE, textMessage);
-                    message.setMessageDirection(Message.MessageDirection.SEND);
+                    message.setSentTime(Calendar.getInstance().getTimeInMillis());
+                    message.setMessageDirection(Message.MessageDirection.RECEIVE);
                     EventBus.getDefault().post(message);
                 }
                 break;

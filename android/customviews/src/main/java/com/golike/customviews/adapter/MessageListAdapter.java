@@ -22,6 +22,7 @@ import com.golike.customviews.model.Message.SentStatus;
 import com.golike.customviews.model.ProviderTag;
 import com.golike.customviews.model.UIMessage;
 import com.golike.customviews.model.UserInfo;
+import com.golike.customviews.utilities.RongDateUtils;
 import com.golike.customviews.utilities.RongUtils;
 import com.golike.customviews.widget.ProviderContainerView;
 import com.golike.customviews.widget.provider.IContainerItemProvider;
@@ -79,14 +80,14 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 final Object provider;
                 ProviderTag tag;
                 if(ChatContext.getInstance() == null || data == null || data.getContent() == null) {
-                        Log.e("MessageListAdapter", "Message is null !");
-                        return;
+                    Log.e("MessageListAdapter", "Message is null !");
+                    return;
                 }
                 provider = ChatContext.getInstance().getMessageTemplate(data.getContent().getClass());
                 tag = ChatContext.getInstance().getMessageProviderTag(data.getContent().getClass());
                 if(provider == null) {
                     Log.e("MessageListAdapter", data.getObjectName() + " message provider not found !");
-                        return;
+                    return;
                 }
                 final View view = holder.contentView.inflate((IContainerItemProvider)provider);
                 ((IContainerItemProvider)provider).bindView(view, position, data);
@@ -134,9 +135,9 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                             holder.rightIconView.setVisibility(View.GONE);
                         }
                         if (!tag.centerInHorizontal()) {
-                            this.setGravity(holder.layout, 5);
+                            this.setGravity(holder.layout, View.TEXT_ALIGNMENT_VIEW_START);
                             holder.contentView.containerViewRight();
-                            holder.nameView.setGravity(5);
+                            holder.nameView.setGravity(View.TEXT_ALIGNMENT_VIEW_START);
                         } else {
                             this.setGravity(holder.layout, 17);
                             holder.contentView.containerViewCenter();
@@ -178,19 +179,11 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                             } else {
                                 holder.readReceipt.setVisibility(View.GONE);
                             }
-                        } else {
-                            holder.progressBar.setVisibility(View.GONE);
-                            holder.warning.setVisibility(View.GONE);
-                            holder.readReceipt.setVisibility(View.GONE);
                         }
                         holder.readReceiptRequest.setVisibility(View.GONE);
                         holder.readReceiptStatus.setVisibility(View.GONE);
                         var13 = null;
                         if (data.getMessageDirection().equals(MessageDirection.SEND)) {
-                            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                            java.util.Date date=new java.util.Date();
-                            String var19=sdf.format(date);
-                            holder.time.setText(var19);
                             if (data.getUserInfo() != null) {
                                 var13 = data.getUserInfo();
                             } else if (data.getMessage() != null && data.getMessage().getContent() != null) {
@@ -202,6 +195,32 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                                 holder.nameView.setText(data.getSenderUserId());
                             }
                         }
+                    }
+                    else {
+                        if(tag.showPortrait()) {
+                            holder.rightIconView.setVisibility(View.GONE);
+                            holder.leftIconView.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.leftIconView.setVisibility(View.GONE);
+                            holder.rightIconView.setVisibility(View.GONE);
+                        }
+
+                        if(!tag.centerInHorizontal()) {
+                            this.setGravity(holder.layout, 3);
+                            holder.contentView.containerViewLeft();
+                            holder.nameView.setGravity(3);
+                        } else {
+                            this.setGravity(holder.layout, 17);
+                            holder.contentView.containerViewCenter();
+                            holder.nameView.setGravity(1);
+                            holder.contentView.setBackgroundColor(0);
+                        }
+                        holder.progressBar.setVisibility(View.GONE);
+                        holder.warning.setVisibility(View.GONE);
+                        holder.readReceipt.setVisibility(View.GONE);
+                        holder.readReceiptRequest.setVisibility(View.GONE);
+                        holder.readReceiptStatus.setVisibility(View.GONE);
+                        holder.nameView.setVisibility(View.VISIBLE);
                     }
                     holder.leftIconView.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
@@ -217,10 +236,29 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                             }
                         }
                     }
+                    if(tag.hide()) {
+                        holder.time.setVisibility(View.GONE);
+                    } else {
+                        if(!this.timeGone) {
+                            String var19 = RongDateUtils.getConversationFormatDate(data.getSentTime(), view.getContext());
+                            holder.time.setText(var19);
+                            if(position == 0) {
+                                holder.time.setVisibility(View.VISIBLE);
+                            } else {
+                                UIMessage var18 = this.getItem(position - 1);
+                                if(RongDateUtils.isShowChatTime(data.getSentTime(), var18.getSentTime(), 180)) {
+                                    holder.time.setVisibility(View.VISIBLE);
+                                } else {
+                                    holder.time.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
 
     private void setGravity(View view, int gravity) {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();

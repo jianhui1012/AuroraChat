@@ -33,7 +33,6 @@ public class ChatViewManger {
         if(ChatContext.getInstance() != null) {
             ChatContext.getInstance().registerMessageTemplate(provider);
         }
-
     }
 
 }
