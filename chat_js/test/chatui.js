@@ -50,6 +50,7 @@ class ChatUI extends Component {
     }
 
     async getNewHistoryMsg(msgs) {
+        this.historyMsgs=[];
         //let newMsg;
         for (let i = msgs.length - 1; i >= 0; i--) {
             let msg = msgs[i];
@@ -59,8 +60,10 @@ class ChatUI extends Component {
                 "portraitUri": "http://img3.imgtn.bdimg.com/it/u=3449010647,3468950612&fm=213&gp=0.jpg"
             };
             let newMsg = this.getTypeMsg(msg, sendUserInfo, msg.senduserid == this.userid);
+            console.warn("newMsg:"+JSON.stringify(newMsg));
             this.historyMsgs.push(newMsg);
         }
+
         this.liveview.getHistoryMessage({"historyMessage": this.historyMsgs});
     }
 
@@ -77,9 +80,8 @@ class ChatUI extends Component {
                     "msgid": 1000+i
                 });
             }
-            console.warn("msgs:"+JSON.stringify(msgs));
             this.getNewHistoryMsg(msgs).then(function (code) {
-                console.warn(code);
+                //console.warn(code);
             });
         }
         else {
