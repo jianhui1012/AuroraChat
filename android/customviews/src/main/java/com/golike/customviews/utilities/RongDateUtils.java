@@ -135,7 +135,7 @@ public class RongDateUtils {
             String formatDate = null;
             Date date = new Date(dateMillis);
             int type = judgeDate(date);
-            long time = System.currentTimeMillis();
+            long time = java.lang.System.currentTimeMillis();
             Calendar calendarCur = Calendar.getInstance();
             Calendar calendardate = Calendar.getInstance();
             calendardate.setTimeInMillis(dateMillis);

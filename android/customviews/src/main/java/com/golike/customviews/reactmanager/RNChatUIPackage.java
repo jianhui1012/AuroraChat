@@ -1,4 +1,4 @@
-package com.golike.customviews.reactnative;
+package com.golike.customviews.reactmanager;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by caiyaoguan on 2017/5/24.
  */
 
-public class ReactChatUIPackage implements ReactPackage {
+public class RNChatUIPackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {

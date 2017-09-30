@@ -36,12 +36,12 @@ public class RichContentMessageItemProvider extends MessageProvider<RichContentM
 
     public View newView(Context context, ViewGroup group) {
         this.mContext=context;
-        View view = LayoutInflater.from(context).inflate(R.layout.rc_item_rich_content_message, (ViewGroup)null);
+        View view = LayoutInflater.from(context).inflate(R.layout.ee_item_rich_content_message, (ViewGroup)null);
         RichContentMessageItemProvider.ViewHolder holder = new RichContentMessageItemProvider.ViewHolder();
-        holder.title = (TextView)view.findViewById(R.id.rc_title);
-        holder.content = (TextView)view.findViewById(R.id.rc_content);
-        holder.img = (ImageView) view.findViewById(R.id.rc_img);
-        holder.mLayout = (RelativeLayout)view.findViewById(R.id.rc_layout);
+        holder.title = (TextView)view.findViewById(R.id.ee_title);
+        holder.content = (TextView)view.findViewById(R.id.ee_content);
+        holder.img = (ImageView) view.findViewById(R.id.ee_img);
+        holder.mLayout = (RelativeLayout)view.findViewById(R.id.ee_layout);
         view.setTag(holder);
         return view;
     }

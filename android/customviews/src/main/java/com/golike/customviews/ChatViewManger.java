@@ -1,7 +1,11 @@
 package com.golike.customviews;
 
 import android.content.Context;
+import android.view.View;
 
+import com.golike.customviews.model.Conversation;
+import com.golike.customviews.model.Message;
+import com.golike.customviews.model.UserInfo;
 import com.golike.customviews.plugin.image.AlbumBitmapCacheHelper;
 import com.golike.customviews.widget.provider.IContainerItemProvider.*;
 import com.golike.customviews.widget.provider.ImageMessageItemProvider;
@@ -33,6 +37,7 @@ public class ChatViewManger {
         if(ChatContext.getInstance() != null) {
             ChatContext.getInstance().registerMessageTemplate(provider);
         }
+
     }
 
 }

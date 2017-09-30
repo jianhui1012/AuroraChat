@@ -24,7 +24,7 @@ public class InputSubMenu {
 
     public InputSubMenu(Context context, List<String> menus) {
         this.mInflater = LayoutInflater.from(context);
-        this.container = (ViewGroup)this.mInflater.inflate(R.layout.rc_ext_sub_menu_container, (ViewGroup)null);
+        this.container = (ViewGroup)this.mInflater.inflate(R.layout.ee_ext_sub_menu_container, (ViewGroup)null);
         this.mPopupWindow = new PopupWindow(this.container, -2, -2);
         this.setupSubMenus(this.container, menus);
     }
@@ -49,7 +49,7 @@ public class InputSubMenu {
 
     private void setupSubMenus(ViewGroup viewGroup, List<String> menus) {
         for(int i = 0; i < menus.size(); ++i) {
-            View view = this.mInflater.inflate(R.layout.rc_ext_sub_menu_item, (ViewGroup)null);
+            View view = this.mInflater.inflate(R.layout.ee_ext_sub_menu_item, (ViewGroup)null);
             TextView tv = (TextView)view.findViewById(R.id.rc_sub_menu_title);
             View divider = view.findViewById(R.id.rc_sub_menu_divider_line);
             String title = (String)menus.get(i);

@@ -1,6 +1,7 @@
 package com.golike.customviews.widget.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -12,12 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.golike.customviews.R;
 import com.golike.customviews.ChatContext;
-import com.golike.customviews.model.Message.SentStatus;
+import com.golike.customviews.model.ImageMessage;
 import com.golike.customviews.model.Message;
+import com.golike.customviews.model.ProviderTag;
 import com.golike.customviews.model.UIMessage;
 import com.golike.customviews.widget.provider.IContainerItemProvider.MessageProvider;
-import com.golike.customviews.model.ImageMessage;
-import com.golike.customviews.model.ProviderTag;
 
 /**
  * Created by admin on 2017/8/23.
@@ -37,21 +37,21 @@ public class ImageMessageItemProvider extends MessageProvider<ImageMessage> {
 
     public View newView(Context context, ViewGroup group) {
         this.mContext=context;
-        View view = LayoutInflater.from(context).inflate(R.layout.rc_item_image_message, (ViewGroup)null);
+        View view = LayoutInflater.from(context).inflate(R.layout.ee_item_image_message, (ViewGroup)null);
         ImageMessageItemProvider.ViewHolder holder = new ImageMessageItemProvider.ViewHolder();
-        holder.message = (TextView)view.findViewById(R.id.rc_msg);
-        holder.img = (ImageView)view.findViewById(R.id.rc_img);
+        holder.message = (TextView)view.findViewById(R.id.ee_msg);
+        holder.img = (ImageView)view.findViewById(R.id.ee_img);
         view.setTag(holder);
         return view;
     }
 
     public void onItemClick(View view, int position, ImageMessage content, UIMessage message) {
-//        if(content != null) {
-//            Intent intent = new Intent("io.rong.imkit.intent.action.picturepagerview");
-//            intent.setPackage(view.getContext().getPackageName());
-//            intent.putExtra("message", message.getMessage());
-//            view.getContext().startActivity(intent);
-//        }
+        if(content != null) {
+            Intent intent = new Intent("com.golike.customviews.intent.action.picturepagerview");
+            intent.setPackage(view.getContext().getPackageName());
+            intent.putExtra("message", message.getMessage());
+            view.getContext().startActivity(intent);
+        }
     }
 
     public void onItemLongClick(final View view, int position, ImageMessage content, final UIMessage message) {
@@ -67,16 +67,16 @@ public class ImageMessageItemProvider extends MessageProvider<ImageMessage> {
         }
         Glide.with(mContext)
                 .load(content.getThumUri())
-                .placeholder(R.drawable.rc_loading)
+                .placeholder(R.drawable.rc_loading).centerCrop()
                 .into(holder.img);
-        int progress = message.getProgress();
-        SentStatus status = message.getSentStatus();
-        if(status.equals(SentStatus.SENDING) && progress < 100) {
-            holder.message.setText(progress + "%");
-            holder.message.setVisibility(View.VISIBLE);
-        } else {
-            holder.message.setVisibility(View.GONE);
-        }
+//        int progress = message.getProgress();
+//        SentStatus status = message.getSentStatus();
+//        if(status.equals(SentStatus.SENDING) && progress < 100) {
+//            holder.message.setText(progress + "%");
+//            holder.message.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.message.setVisibility(View.GONE);
+//        }
 
     }
 

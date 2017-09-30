@@ -4,20 +4,22 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnDoubleTapListener;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.ImageView;
+
 import com.golike.customviews.photoview.gestures.OnGestureListener;
 import com.golike.customviews.photoview.gestures.VersionedGestureDetector;
 import com.golike.customviews.photoview.log.LogManager;
@@ -31,7 +33,7 @@ import java.lang.ref.WeakReference;
 
 public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, OnGestureListener, ViewTreeObserver.OnGlobalLayoutListener {
     private static final String LOG_TAG = "PhotoViewAttacher";
-    private static final boolean DEBUG = Log.isLoggable("PhotoViewAttacher", 3);
+    private static final boolean DEBUG = Log.isLoggable("PhotoViewAttacher", Log.DEBUG);
     static final Interpolator sInterpolator = new AccelerateDecelerateInterpolator();
     int ZOOM_DURATION;
     static final int EDGE_NONE = -1;
@@ -84,7 +86,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, OnGe
         if(null == scaleType) {
             return false;
         } else {
-            switch(ImageView.ScaleType.values()[scaleType.ordinal()]) {
+            switch(scaleType) {
                 case FIT_XY:
                     throw new IllegalArgumentException(scaleType.name() + " is not supported in PhotoView");
                 default:
@@ -579,11 +581,11 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, OnGe
                 float deltaY = 0.0F;
                 int viewHeight = this.getImageViewHeight(imageView);
                 if(height <= (float)viewHeight) {
-                    switch(ImageView.ScaleType.values()[this.mScaleType.ordinal()]) {
+                    switch(mScaleType) {
                         case FIT_START:
                             deltaY = -rect.top;
                             break;
-                        case FIT_CENTER:
+                        case FIT_END:
                             deltaY = (float)viewHeight - height - rect.top;
                             break;
                         default:
@@ -597,11 +599,11 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, OnGe
 
                 int viewWidth = this.getImageViewWidth(imageView);
                 if(width <= (float)viewWidth) {
-                    switch(ImageView.ScaleType.values()[this.mScaleType.ordinal()]) {
+                    switch(mScaleType) {
                         case FIT_START:
                             deltaX = -rect.left;
                             break;
-                        case FIT_CENTER:
+                        case FIT_END:
                             deltaX = (float)viewWidth - width - rect.left;
                             break;
                         default:
@@ -712,18 +714,18 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, OnGe
                         mTempSrc1 = new RectF(0.0F, 0.0F, (float)drawableHeight, (float)drawableWidth);
                     }
 
-                    switch(ImageView.ScaleType.values()[this.mScaleType.ordinal()]) {
+                    switch(this.mScaleType) {
                         case FIT_START:
-                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst, Matrix.ScaleToFit.START);
-                            break;
-                        case FIT_CENTER:
-                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst, Matrix.ScaleToFit.END);
+                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst,  ScaleToFit.START);
                             break;
                         case FIT_END:
-                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst, Matrix.ScaleToFit.CENTER);
+                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst,  ScaleToFit.END);
                             break;
-                        case CENTER:
-                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst, Matrix.ScaleToFit.FILL);
+                        case FIT_CENTER:
+                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst,  ScaleToFit.CENTER);
+                            break;
+                        case FIT_XY:
+                            this.mBaseMatrix.setRectToRect(mTempSrc1, mTempDst,  ScaleToFit.FILL);
                     }
                 }
             }

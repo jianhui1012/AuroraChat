@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.bumptech.glide.Glide;
 import com.golike.customviews.R;
 import com.golike.customviews.photoview.PhotoView;
 import com.golike.customviews.photoview.PhotoViewAttacher;
@@ -62,7 +63,7 @@ public class PicturePreviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(1);
-        this.setContentView(R.layout.rc_picprev_activity);
+        this.setContentView(R.layout.ee_picprev_activity);
         if(savedInstanceState != null) {
             this.mItemList = savedInstanceState.getParcelableArrayList("ItemList");
         }
@@ -130,7 +131,7 @@ public class PicturePreviewActivity extends Activity {
                 PicturePreviewActivity.this.mUseOrigin.setChecked(!PicturePreviewActivity.this.mUseOrigin.getChecked());
                 if(PicturePreviewActivity.this.mUseOrigin.getChecked() && PicturePreviewActivity.this.getTotalSelectedNum() == 0) {
                     PicturePreviewActivity.this.mSelectBox.setChecked(!PicturePreviewActivity.this.mSelectBox.getChecked());
-                    ((PicItem)PicturePreviewActivity.this.mItemList.get(PicturePreviewActivity.this.mCurrentIndex)).selected = PicturePreviewActivity.this.mSelectBox.getChecked();
+                    (PicturePreviewActivity.this.mItemList.get(PicturePreviewActivity.this.mCurrentIndex)).selected = PicturePreviewActivity.this.mSelectBox.getChecked();
                     PicturePreviewActivity.this.updateToolbar();
                 }
 
@@ -144,7 +145,7 @@ public class PicturePreviewActivity extends Activity {
                     Toast.makeText(PicturePreviewActivity.this, R.string.rc_picsel_selected_max, Toast.LENGTH_SHORT).show();
                 } else {
                     PicturePreviewActivity.this.mSelectBox.setChecked(!PicturePreviewActivity.this.mSelectBox.getChecked());
-                    ((PicItem)PicturePreviewActivity.this.mItemList.get(PicturePreviewActivity.this.mCurrentIndex)).selected = PicturePreviewActivity.this.mSelectBox.getChecked();
+                    (PicturePreviewActivity.this.mItemList.get(PicturePreviewActivity.this.mCurrentIndex)).selected = PicturePreviewActivity.this.mSelectBox.getChecked();
                     PicturePreviewActivity.this.updateToolbar();
                 }
             }
@@ -158,7 +159,7 @@ public class PicturePreviewActivity extends Activity {
             public void onPageSelected(int position) {
                 PicturePreviewActivity.this.mCurrentIndex = position;
                 PicturePreviewActivity.this.mIndexTotal.setText(String.format("%d/%d", new Object[]{Integer.valueOf(position + 1), Integer.valueOf(PicturePreviewActivity.this.mItemList.size())}));
-                PicturePreviewActivity.this.mSelectBox.setChecked(((PicItem)PicturePreviewActivity.this.mItemList.get(position)).selected);
+                PicturePreviewActivity.this.mSelectBox.setChecked((PicturePreviewActivity.this.mItemList.get(position)).selected);
             }
 
             public void onPageScrollStateChanged(int state) {
@@ -197,7 +198,7 @@ public class PicturePreviewActivity extends Activity {
         int sum = 0;
 
         for(int i = 0; i < this.mItemList.size(); ++i) {
-            if(((PicItem)this.mItemList.get(i)).selected) {
+            if((this.mItemList.get(i)).selected) {
                 ++sum;
             }
         }
@@ -209,8 +210,8 @@ public class PicturePreviewActivity extends Activity {
         float size = 0.0F;
 
         for(int totalSize = 0; totalSize < this.mItemList.size(); ++totalSize) {
-            if(((PicItem)this.mItemList.get(totalSize)).selected) {
-                File file = new File(((PicItem)this.mItemList.get(totalSize)).uri);
+            if((this.mItemList.get(totalSize)).selected) {
+                File file = new File((this.mItemList.get(totalSize)).uri);
                 size += (float)(file.length() / 1024L);
             }
         }
@@ -330,7 +331,6 @@ public class PicturePreviewActivity extends Activity {
                             uiOptions = 4;
                             decorView.setSystemUiVisibility(uiOptions);
                         }
-
                         PicturePreviewActivity.this.mToolbarTop.setVisibility(INVISIBLE);
                         PicturePreviewActivity.this.mToolbarBottom.setVisibility(INVISIBLE);
                     } else {
@@ -341,15 +341,13 @@ public class PicturePreviewActivity extends Activity {
                             uiOptions = 0;
                             decorView.setSystemUiVisibility(uiOptions);
                         }
-
                         PicturePreviewActivity.this.mToolbarTop.setVisibility(VISIBLE);
                         PicturePreviewActivity.this.mToolbarBottom.setVisibility(VISIBLE);
                     }
-
                 }
             });
             container.addView(photoView, -1, -1);
-            String path = ((PicItem)PicturePreviewActivity.this.mItemList.get(position)).uri;
+            String path = (PicturePreviewActivity.this.mItemList.get(position)).uri;
             AlbumBitmapCacheHelper.getInstance().removePathFromShowlist(path);
             AlbumBitmapCacheHelper.getInstance().addPathToShowlist(path);
             Bitmap bitmap = AlbumBitmapCacheHelper.getInstance().getBitmap(path, 0, 0, new ILoadImageCallback() {
@@ -365,7 +363,7 @@ public class PicturePreviewActivity extends Activity {
                 photoView.setImageResource(R.drawable.rc_grid_image_default);
             }
 
-          return null;
+          return photoView;
         }
 
         public void destroyItem(ViewGroup container, int position, Object object) {

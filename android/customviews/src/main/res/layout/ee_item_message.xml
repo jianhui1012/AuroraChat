@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rc_layout_item_message"
+    android:id="@+id/ee_layout_item_message"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -12,7 +12,7 @@
     android:paddingTop="6dp">
 
     <TextView
-        android:id="@id/rc_time"
+        android:id="@id/ee_time"
         style="@style/RCTheme.MessageTime"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
@@ -23,34 +23,34 @@
         android:gravity="center_vertical" />
 
     <ImageView
-        android:id="@id/rc_left"
+        android:id="@id/ee_left"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/rc_time"
+        android:layout_below="@id/ee_time"
         android:layout_marginRight="4dp"
         android:src="@drawable/ic_launcher_round"
         android:background="@android:color/transparent" />
 
     <ImageView
-        android:id="@id/rc_right"
+        android:id="@id/ee_right"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/rc_time"
+        android:layout_below="@id/ee_time"
         android:layout_marginLeft="4dp"
         android:src="@drawable/ic_launcher_round"
         android:background="@android:color/transparent" />
 
 
     <TextView
-        android:id="@id/rc_title"
+        android:id="@id/ee_title"
         style="@style/RCTheme.Message.Username.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rc_time"
-        android:layout_toLeftOf="@id/rc_right"
-        android:layout_toRightOf="@id/rc_left"
+        android:layout_below="@id/ee_time"
+        android:layout_toLeftOf="@id/ee_right"
+        android:layout_toRightOf="@id/ee_left"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
@@ -61,19 +61,19 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rc_title"
-        android:layout_toLeftOf="@id/rc_right"
-        android:layout_toRightOf="@id/rc_left">
+        android:layout_below="@id/ee_title"
+        android:layout_toLeftOf="@id/ee_right"
+        android:layout_toRightOf="@id/ee_left">
 
         <LinearLayout
-            android:id="@id/rc_layout"
+            android:id="@id/ee_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@id/rc_sent_status"
+                android:id="@id/ee_sent_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -84,7 +84,7 @@
                 android:visibility="gone" />
 
             <ProgressBar
-                android:id="@id/rc_progress"
+                android:id="@id/ee_progress"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
@@ -93,7 +93,7 @@
                 android:indeterminateDrawable="@drawable/rc_progress_sending_style" />
 
             <ImageView
-                android:id="@id/rc_warning"
+                android:id="@id/ee_warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -102,7 +102,7 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@id/rc_read_receipt"
+                android:id="@id/ee_read_receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -111,7 +111,7 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@id/rc_read_receipt_request"
+                android:id="@id/ee_read_receipt_request"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
@@ -120,7 +120,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@id/rc_read_receipt_status"
+                android:id="@id/ee_read_receipt_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -132,7 +132,7 @@
                 android:visibility="gone" />
 
             <com.golike.customviews.widget.ProviderContainerView
-                android:id="@id/rc_content"
+                android:id="@id/ee_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -6,14 +6,14 @@
     android:background="@color/rc_normal_bg">
 
     <include
-        android:id="@id/rc_layout_msg_list"
-        layout="@layout/rc_fr_messagelist"
+        android:id="@id/ee_layout_msg_list"
+        layout="@layout/ee_fr_messagelist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rc_extension" />
+        android:layout_above="@+id/ee_extension" />
 
     <com.golike.customviews.EditExtension
-        android:id="@+id/rc_extension"
+        android:id="@+id/ee_extension"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

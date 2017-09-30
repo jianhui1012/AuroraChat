@@ -23,13 +23,9 @@ import android.widget.TextView;
 import com.golike.customviews.R;
 import com.golike.customviews.ChatContext;
 import com.golike.customviews.model.Conversation.ConversationType;
-import com.golike.customviews.model.UserInfo;
 import com.golike.customviews.model.VoiceMessage;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
-import java.util.Calendar;
 
 /**
  * Created by admin on 2017/8/10.
@@ -58,6 +54,7 @@ public class AudioRecordManager implements Handler.Callback {
     IAudioState sendingState;
     IAudioState cancelState;
     IAudioState timerState;
+    private OnVoiceChangeListtener mOnVoiceChangeListtener;
 
     public static AudioRecordManager getInstance() {
         return AudioRecordManager.SingletonHolder.sInstance;
@@ -122,7 +119,7 @@ public class AudioRecordManager implements Handler.Callback {
     private void initView(View root) {
         this.mHandler = new Handler(root.getHandler().getLooper(), this);
         LayoutInflater inflater = LayoutInflater.from(root.getContext());
-        View view = inflater.inflate(R.layout.rc_wi_vo_popup, (ViewGroup)null);
+        View view = inflater.inflate(R.layout.ee_wi_vo_popup, null);
         this.mStateIV = (ImageView)view.findViewById(R.id.rc_audio_state_image);
         this.mStateTV = (TextView)view.findViewById(R.id.rc_audio_state_text);
         this.mTimerTV = (TextView)view.findViewById(R.id.rc_audio_timer);
@@ -223,7 +220,6 @@ public class AudioRecordManager implements Handler.Callback {
 //        if(TypingMessageManager.getInstance().isShowMessageTyping()) {
 //            RongIMClient.getInstance().sendTypingStatus(conversationType, targetId, "RC:VcMsg");
 //        }
-
     }
 
     public void willCancelRecord() {
@@ -274,8 +270,8 @@ public class AudioRecordManager implements Handler.Callback {
 
             this.mMediaRecorder.setAudioChannels(1);
             this.mMediaRecorder.setAudioSource(1);
-            this.mMediaRecorder.setOutputFormat(3);
-            this.mMediaRecorder.setAudioEncoder(1);
+            this.mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
+            this.mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             this.mAudioPath = Uri.fromFile(new File(this.mContext.getCacheDir(), System.currentTimeMillis() + "temp.voice"));
             this.mMediaRecorder.setOutputFile(this.mAudioPath.getPath());
             this.mMediaRecorder.prepare();
@@ -333,11 +329,8 @@ public class AudioRecordManager implements Handler.Callback {
 
             int duration = (int)(SystemClock.elapsedRealtime() - this.smStartRecTime) / 1000;
             VoiceMessage voiceMessage = VoiceMessage.obtain(this.mAudioPath, duration);
-            voiceMessage.setUserInfo(new UserInfo("1001", "golike", Uri.parse("http://img.17bangtu.com/dfile?md5=99d16d4817174715ff86e3ef1e618ad5:200x200")));
-            com.golike.customviews.model.Message message = com.golike.customviews.model.Message.obtain("xxx", ConversationType.PRIVATE, voiceMessage);
-            message.setSentTime(Calendar.getInstance().getTimeInMillis());
-            message.setMessageDirection(com.golike.customviews.model.Message.MessageDirection.SEND);
-            EventBus.getDefault().post(message);
+            if(mOnVoiceChangeListtener!=null)
+              this.mOnVoiceChangeListtener.sendVoiceMessage(voiceMessage);
         }
 
     }
@@ -386,6 +379,14 @@ public class AudioRecordManager implements Handler.Callback {
             }
 
         }
+    }
+
+    public void setOnVoiceChange(OnVoiceChangeListtener mOnVoiceChangeListtener) {
+       this.mOnVoiceChangeListtener=mOnVoiceChangeListtener;
+    }
+
+    public  interface  OnVoiceChangeListtener{
+        void sendVoiceMessage(VoiceMessage voiceMessage);
     }
 
     class TimerState extends IAudioState {

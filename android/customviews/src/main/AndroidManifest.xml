@@ -28,11 +28,28 @@
 
     <application>
         <activity
-            android:name=".plugin.image.PicturePreviewActivity"
+            android:name="com.golike.customviews.plugin.image.PicturePreviewActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".plugin.image.PictureSelectorActivity"
+            android:name="com.golike.customviews.plugin.image.PictureSelectorActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.golike.customviews.activity.PicturePagerActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="com.golike.customviews.intent.action.picturepagerview" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.aurorachat.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
     </application>
 </manifest>

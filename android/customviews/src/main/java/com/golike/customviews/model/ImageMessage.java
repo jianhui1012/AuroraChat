@@ -202,10 +202,10 @@ public class ImageMessage extends MessageContent {
 
     public ImageMessage(Parcel in) {
         this.setExtra(ParcelUtils.readFromParcel(in));
-        this.mLocalUri = (Uri)ParcelUtils.readFromParcel(in, Uri.class);
-        this.mRemoteUri = (Uri)ParcelUtils.readFromParcel(in, Uri.class);
-        this.mThumUri = (Uri)ParcelUtils.readFromParcel(in, Uri.class);
-        this.setUserInfo((UserInfo)ParcelUtils.readFromParcel(in, UserInfo.class));
+        this.mLocalUri = ParcelUtils.readFromParcel(in, Uri.class);
+        this.mRemoteUri = ParcelUtils.readFromParcel(in, Uri.class);
+        this.mThumUri = ParcelUtils.readFromParcel(in, Uri.class);
+        this.setUserInfo(ParcelUtils.readFromParcel(in, UserInfo.class));
         this.mIsFull = ParcelUtils.readIntFromParcel(in).intValue() == 1;
     }
 

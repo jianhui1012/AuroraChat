@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/rc_layout"
+    android:id="@id/ee_layout"
     android:layout_width="244dp"
     android:layout_height="126dp"
     android:background="@android:color/white">
 
     <TextView
-        android:id="@+id/rc_title"
+        android:id="@id/ee_title"
         style="@style/RCTheme.Message.TextView"
         android:layout_width="244dp"
         android:layout_height="wrap_content"
@@ -22,25 +22,25 @@
 
 
     <ImageView
-        android:id="@+id/rc_img"
+        android:id="@id/ee_img"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/rc_title"
+        android:layout_below="@+id/ee_title"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="3dp"
-        android:layout_toRightOf="@id/rc_content"
+        android:layout_toRightOf="@id/ee_content"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/rc_ic_def_rich_content"
        />
 
     <TextView
-        android:id="@+id/rc_content"
+        android:id="@id/ee_content"
         style="@style/RCTheme.Message.RichContent.TextView"
         android:layout_width="177dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rc_title"
+        android:layout_below="@+id/ee_title"
         android:background="@android:color/transparent"
         android:ellipsize="end"
         android:gravity="right"

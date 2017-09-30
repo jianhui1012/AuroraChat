@@ -23,7 +23,7 @@ public class PhotoView extends ImageView implements IPhotoView {
     private ScaleType mPendingScaleType;
 
     public PhotoView(Context context) {
-        this(context, (AttributeSet)null);
+        this(context, null);
     }
 
     public PhotoView(Context context, AttributeSet attr) {
@@ -47,27 +47,6 @@ public class PhotoView extends ImageView implements IPhotoView {
         }
 
     }
-    private final Runnable measureAndLayout = new Runnable() {
-        @Override
-        public void run() {
-            measure(
-                    MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
-            layout(getLeft(), getTop(), getRight(), getBottom());
-        }
-    };
-
-    @Override
-    public void requestLayout() {
-        super.requestLayout();
-
-        // The spinner relies on a measure + layout pass happening after it calls requestLayout().
-        // Without this, the widget never actually changes the selection and doesn't call the
-        // appropriate listeners. Since we override onLayout in our ViewGroups, a layout pass never
-        // happens after a call to requestLayout, so we simulate one here.
-        post(measureAndLayout);
-    }
-
 
     /** @deprecated */
     public void setPhotoViewRotation(float rotationDegree) {
@@ -284,4 +263,6 @@ public class PhotoView extends ImageView implements IPhotoView {
         this.init();
         super.onAttachedToWindow();
     }
+
+
 }

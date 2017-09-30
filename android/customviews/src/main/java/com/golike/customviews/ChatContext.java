@@ -5,8 +5,11 @@ import android.content.ContextWrapper;
 import android.location.LocationProvider;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 
 import com.golike.customviews.common.WeakValueHashMap;
+import com.golike.customviews.model.Conversation.*;
+import com.golike.customviews.model.Message;
 import com.golike.customviews.model.MessageContent;
 import com.golike.customviews.model.ProviderTag;
 import com.golike.customviews.model.UserInfo;
@@ -40,6 +43,7 @@ public class ChatContext extends ContextWrapper {
     private boolean isUserInfoAttached;
     private boolean isShowUnreadMessageState;
     private boolean isShowNewMessageState;
+    private ConversationBehaviorListener mConversationBehaviorListener;
 
     public static void init(Context context) {
         if(sContext == null) {
@@ -93,6 +97,15 @@ public class ChatContext extends ContextWrapper {
         return  this.mProviderMap.get(type);
     }
 
+    public ConversationBehaviorListener getConversationBehaviorListener() {
+        return this.mConversationBehaviorListener;
+    }
+
+    public void setConversationBehaviorListener(ConversationBehaviorListener conversationBehaviorListener) {
+        if(ChatContext.getInstance() != null) {
+            this.mConversationBehaviorListener = conversationBehaviorListener;
+        }
+    }
 
     public void executorBackground(Runnable runnable) {
         if(runnable != null) {
@@ -138,6 +151,19 @@ public class ChatContext extends ContextWrapper {
 
     public boolean getNewMessageState() {
         return this.isShowNewMessageState;
+    }
+
+
+    public interface ConversationBehaviorListener {
+        boolean onUserPortraitClick(Context context, ConversationType conversationType, UserInfo userInfo);
+
+        boolean onUserPortraitLongClick(Context context, ConversationType conversationType, UserInfo userInfo);;
+
+        boolean onMessageClick(Context context, View view, Message message);
+
+        boolean onMessageLinkClick(Context context, String st);
+
+        boolean onMessageLongClick(Context context, View view, Message message);
     }
 
 }

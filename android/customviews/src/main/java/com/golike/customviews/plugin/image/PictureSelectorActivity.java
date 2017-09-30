@@ -49,8 +49,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-
 /**
  * Created by admin on 2017/8/10.
  */
@@ -81,7 +79,7 @@ public class PictureSelectorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(1);
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.rc_picsel_activity);
+        this.setContentView(R.layout.ee_picsel_activity);
         if(savedInstanceState != null) {
             PictureSelectorActivity.PicItemHolder.itemList = savedInstanceState.getParcelableArrayList("ItemList");
         }
@@ -633,7 +631,7 @@ public class PictureSelectorActivity extends Activity {
             View view = convertView;
             PictureSelectorActivity.CatalogAdapter.ViewHolder holder;
             if(convertView == null) {
-                view = this.mInflater.inflate(R.layout.rc_picsel_catalog_listview, parent, false);
+                view = this.mInflater.inflate(R.layout.ee_picsel_catalog_listview, parent, false);
                 holder = new PictureSelectorActivity.CatalogAdapter.ViewHolder();
                 holder.image = (ImageView)view.findViewById(R.id.image);
                 holder.name = (TextView)view.findViewById(R.id.name);
@@ -763,7 +761,7 @@ public class PictureSelectorActivity extends Activity {
         @TargetApi(23)
         public View getView(int position, View convertView, ViewGroup parent) {
             if(position == 0) {
-                View item1 = this.mInflater.inflate(R.layout.rc_picsel_grid_camera, parent, false);
+                View item1 = this.mInflater.inflate(R.layout.ee_picsel_grid_camera, parent, false);
                 ImageButton view1 = (ImageButton)item1.findViewById(R.id.camera_mask);
                 view1.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
@@ -787,7 +785,7 @@ public class PictureSelectorActivity extends Activity {
                 if(convertView != null && convertView.getTag() != null) {
                     holder = (PictureSelectorActivity.GridViewAdapter.ViewHolder)convertView.getTag();
                 } else {
-                    view = this.mInflater.inflate(R.layout.rc_picsel_grid_item, parent, false);
+                    view = this.mInflater.inflate(R.layout.ee_picsel_grid_item, parent, false);
                     holder = new PictureSelectorActivity.GridViewAdapter.ViewHolder();
                     holder.image = (ImageView)view.findViewById(R.id.image);
                     holder.mask = view.findViewById(R.id.mask);

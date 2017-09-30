@@ -57,7 +57,7 @@ public class EmojiTab implements IEmoticonTab {
         }
 
         int pages = count / this.mEmojiCountPerPage + (count % this.mEmojiCountPerPage != 0?1:0);
-        View view = LayoutInflater.from(context).inflate(R.layout.rc_ext_emoji_pager, (ViewGroup)null);
+        View view = LayoutInflater.from(context).inflate(R.layout.ee_ext_emoji_pager, (ViewGroup)null);
         ViewPager viewPager = (ViewPager)view.findViewById(R.id.rc_view_pager);
         this.mIndicator = (LinearLayout)view.findViewById(R.id.rc_indicator);
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -85,7 +85,7 @@ public class EmojiTab implements IEmoticonTab {
 
     private void initIndicator(int pages, LinearLayout indicator) {
         for(int i = 0; i < pages; ++i) {
-            ImageView imageView = (ImageView)this.mLayoutInflater.inflate(R.layout.rc_ext_indicator, (ViewGroup)null);
+            ImageView imageView = (ImageView)this.mLayoutInflater.inflate(R.layout.ee_ext_indicator, (ViewGroup)null);
             imageView.setImageResource(R.drawable.rc_ext_indicator);
             indicator.addView(imageView);
         }
@@ -141,7 +141,7 @@ public class EmojiTab implements IEmoticonTab {
             EmojiTab.ViewHolder viewHolder;
             if(convertView == null) {
                 viewHolder = EmojiTab.this.new ViewHolder();
-                convertView = EmojiTab.this.mLayoutInflater.inflate(R.layout.rc_ext_emoji_item, (ViewGroup)null);
+                convertView = EmojiTab.this.mLayoutInflater.inflate(R.layout.ee_ext_emoji_item, (ViewGroup)null);
                 viewHolder.emojiIV = (ImageView)convertView.findViewById(R.id.rc_ext_emoji_item);
                 convertView.setTag(viewHolder);
             }
@@ -165,7 +165,7 @@ public class EmojiTab implements IEmoticonTab {
         }
 
         public Object instantiateItem(ViewGroup container, int position) {
-            GridView gridView = (GridView)EmojiTab.this.mLayoutInflater.inflate(R.layout.rc_ext_emoji_grid_view, (ViewGroup)null);
+            GridView gridView = (GridView)EmojiTab.this.mLayoutInflater.inflate(R.layout.ee_ext_emoji_grid_view, (ViewGroup)null);
             gridView.setAdapter(EmojiTab.this.new EmojiAdapter(position * EmojiTab.this.mEmojiCountPerPage, AndroidEmoji.getEmojiSize()));
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

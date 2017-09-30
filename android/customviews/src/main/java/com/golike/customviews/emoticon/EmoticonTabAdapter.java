@@ -229,7 +229,7 @@ public class EmoticonTabAdapter {
     }
 
     private View initView(Context context, ViewGroup parent) {
-        View container = LayoutInflater.from(context).inflate(R.layout.rc_ext_emoticon_tab_container, (ViewGroup)null);
+        View container = LayoutInflater.from(context).inflate(R.layout.ee_ext_emoticon_tab_container, (ViewGroup)null);
         Integer height = Integer.valueOf((int)context.getResources().getDimension(R.dimen.rc_extension_board_height));
         container.setLayoutParams(new RelativeLayout.LayoutParams(-1, height.intValue()));
         this.mViewPager = (ViewPager)container.findViewById(R.id.rc_view_pager);
@@ -289,7 +289,7 @@ public class EmoticonTabAdapter {
 
     private View getTabIcon(Context context, IEmoticonTab tab) {
         Drawable drawable = tab.obtainTabDrawable(context);
-        View item = LayoutInflater.from(context).inflate(R.layout.rc_ext_emoticon_tab_item, (ViewGroup)null);
+        View item = LayoutInflater.from(context).inflate(R.layout.ee_ext_emoticon_tab_item, (ViewGroup)null);
         item.setLayoutParams(new RelativeLayout.LayoutParams(RongUtils.dip2px(60.0F), RongUtils.dip2px(36.0F)));
         ImageView iv = (ImageView)item.findViewById(R.id.rc_emoticon_tab_iv);
         iv.setImageDrawable(drawable);

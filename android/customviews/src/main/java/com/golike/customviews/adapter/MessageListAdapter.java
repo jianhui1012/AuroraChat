@@ -3,6 +3,7 @@ package com.golike.customviews.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.golike.customviews.R;
 import com.golike.customviews.ChatContext;
 import com.golike.customviews.model.Conversation.ConversationType;
@@ -26,8 +28,6 @@ import com.golike.customviews.utilities.RongDateUtils;
 import com.golike.customviews.utilities.RongUtils;
 import com.golike.customviews.widget.ProviderContainerView;
 import com.golike.customviews.widget.provider.IContainerItemProvider;
-
-import java.text.SimpleDateFormat;
 
 
 /**
@@ -46,21 +46,21 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
 
     @Override
     protected View newView(Context context, int pos, ViewGroup parent) {
-        View result = this.mInflater.inflate(R.layout.rc_item_message, (ViewGroup) null);
+        View result = this.mInflater.inflate(R.layout.ee_item_message, null);
         MessageListAdapter.ViewHolder holder = new MessageListAdapter.ViewHolder();
-        holder.leftIconView = (ImageView) this.findViewById(result, R.id.rc_left);
-        holder.rightIconView = (ImageView) this.findViewById(result, R.id.rc_right);
-        holder.nameView = (TextView) this.findViewById(result, R.id.rc_title);
-        holder.contentView = (ProviderContainerView) this.findViewById(result, R.id.rc_content);
-        holder.layout = (ViewGroup) this.findViewById(result, R.id.rc_layout);
-        holder.progressBar = (ProgressBar) this.findViewById(result, R.id.rc_progress);
-        holder.warning = (ImageView) this.findViewById(result, R.id.rc_warning);
-        holder.readReceipt = (ImageView) this.findViewById(result, R.id.rc_read_receipt);
-        holder.readReceiptRequest = (ImageView) this.findViewById(result, R.id.rc_read_receipt_request);
-        holder.readReceiptStatus = (TextView) this.findViewById(result, R.id.rc_read_receipt_status);
-        holder.time = (TextView) this.findViewById(result, R.id.rc_time);
-        holder.sentStatus = (TextView) this.findViewById(result, R.id.rc_sent_status);
-        holder.layoutItem = (RelativeLayout) this.findViewById(result, R.id.rc_layout_item_message);
+        holder.leftIconView =  this.findViewById(result, R.id.ee_left);
+        holder.rightIconView = this.findViewById(result, R.id.ee_right);
+        holder.nameView = this.findViewById(result, R.id.ee_title);
+        holder.contentView =this.findViewById(result, R.id.ee_content);
+        holder.layout =this.findViewById(result, R.id.ee_layout);
+        holder.progressBar =  this.findViewById(result, R.id.ee_progress);
+        holder.warning = this.findViewById(result, R.id.ee_warning);
+        holder.readReceipt =  this.findViewById(result, R.id.ee_read_receipt);
+        holder.readReceiptRequest = this.findViewById(result, R.id.ee_read_receipt_request);
+        holder.readReceiptStatus = this.findViewById(result, R.id.ee_read_receipt_status);
+        holder.time = this.findViewById(result, R.id.ee_time);
+        holder.sentStatus =this.findViewById(result, R.id.ee_sent_status);
+        holder.layoutItem =this.findViewById(result, R.id.ee_layout_item_message);
         if (holder.time.getVisibility() == View.GONE) {
             this.timeGone = true;
         } else {
@@ -80,14 +80,14 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 final Object provider;
                 ProviderTag tag;
                 if(ChatContext.getInstance() == null || data == null || data.getContent() == null) {
-                    Log.e("MessageListAdapter", "Message is null !");
-                    return;
+                        Log.e("MessageListAdapter", "Message is null !");
+                        return;
                 }
                 provider = ChatContext.getInstance().getMessageTemplate(data.getContent().getClass());
                 tag = ChatContext.getInstance().getMessageProviderTag(data.getContent().getClass());
                 if(provider == null) {
                     Log.e("MessageListAdapter", data.getObjectName() + " message provider not found !");
-                    return;
+                        return;
                 }
                 final View view = holder.contentView.inflate((IContainerItemProvider)provider);
                 ((IContainerItemProvider)provider).bindView(view, position, data);
@@ -160,7 +160,6 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                             } else {
                                 holder.progressBar.setVisibility(View.GONE);
                             }
-
                             holder.warning.setVisibility(View.GONE);
                             holder.readReceipt.setVisibility(View.GONE);
                         } else if (data.getSentStatus() == SentStatus.FAILED) {
@@ -179,21 +178,43 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                             } else {
                                 holder.readReceipt.setVisibility(View.GONE);
                             }
+                        }else {
+                            holder.progressBar.setVisibility(View.GONE);
+                            holder.warning.setVisibility(View.GONE);
+                            holder.readReceipt.setVisibility(View.GONE);
                         }
                         holder.readReceiptRequest.setVisibility(View.GONE);
                         holder.readReceiptStatus.setVisibility(View.GONE);
-                        var13 = null;
-                        if (data.getMessageDirection().equals(MessageDirection.SEND)) {
-                            if (data.getUserInfo() != null) {
-                                var13 = data.getUserInfo();
-                            } else if (data.getMessage() != null && data.getMessage().getContent() != null) {
-                                var13 = data.getMessage().getContent().getUserInfo();
+                        if(time && (data.getConversationType().equals(ConversationType.GROUP) || data.getConversationType().equals(ConversationType.DISCUSSION))) {
+                        }
+                        holder.nameView.setVisibility(View.GONE);
+                        holder.readReceiptRequest.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
                             }
-                            if (var13 != null) {
-                                holder.nameView.setText(var13.getName());
-                            } else {
-                                holder.nameView.setText(data.getSenderUserId());
+                        });
+                        holder.readReceiptStatus.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
                             }
+                        });
+                        holder.rightIconView.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                if(ChatContext.getInstance().getConversationBehaviorListener() != null) {
+                                    UserInfo userInfo = null;
+                                    if(!TextUtils.isEmpty(data.getSenderUserId())) {
+                                        //userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getSenderUserId());
+                                        userInfo = userInfo == null?new UserInfo(data.getSenderUserId(), (String)null, (Uri)null):userInfo;
+                                    }
+                                    ChatContext.getInstance().getConversationBehaviorListener().onUserPortraitClick(MessageListAdapter.this.mContext, data.getConversationType(), userInfo);
+                                }
+                            }
+                        });
+                        holder.rightIconView.setOnLongClickListener(new View.OnLongClickListener() {
+                            public boolean onLongClick(View v) {
+                              return  true;
+                            }
+                        });
+                        if(!tag.showWarning()) {
+                            holder.warning.setVisibility(View.GONE);
                         }
                     }
                     else {
@@ -221,21 +242,88 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                         holder.readReceiptRequest.setVisibility(View.GONE);
                         holder.readReceiptStatus.setVisibility(View.GONE);
                         holder.nameView.setVisibility(View.VISIBLE);
-                    }
-                    holder.leftIconView.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
+                        if(data.getConversationType() != ConversationType.PRIVATE && tag.showSummaryWithName() && data.getConversationType() != ConversationType.PUBLIC_SERVICE && data.getConversationType() != ConversationType.APP_PUBLIC_SERVICE) {
+                            var13 = null;
+                            if(data.getConversationType().equals(ConversationType.CUSTOMER_SERVICE) && data.getMessageDirection().equals(MessageDirection.RECEIVE)) {
+                                if(data.getUserInfo() != null) {
+                                    var13 = data.getUserInfo();
+                                } else if(data.getMessage() != null && data.getMessage().getContent() != null) {
+                                    var13 = data.getMessage().getContent().getUserInfo();
+                                }
+
+                                if(var13 != null) {
+                                    holder.nameView.setText(var13.getName());
+                                } else {
+                                    holder.nameView.setText(data.getSenderUserId());
+                                }
+                            } else if(data.getConversationType() == ConversationType.GROUP) {
+                            } else {
+                            }
+                        } else {
+                            holder.nameView.setVisibility(View.GONE);
                         }
-                    });
+                        holder.leftIconView.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                if(ChatContext.getInstance().getConversationBehaviorListener() != null) {
+                                    UserInfo userInfo = null;
+                                    if(!TextUtils.isEmpty(data.getSenderUserId())) {
+                                        //userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getSenderUserId());
+                                        userInfo = userInfo == null?new UserInfo(data.getSenderUserId(), (String)null, (Uri)null):userInfo;
+                                    }
+                                    ChatContext.getInstance().getConversationBehaviorListener().onUserPortraitClick(MessageListAdapter.this.mContext, data.getConversationType(), userInfo);
+                                }
+                            }
+                        });
+                    }
                     Uri var15;
-                    if (holder.rightIconView.getVisibility() == View.VISIBLE) {
-                        if ( data.getMessageDirection().equals(MessageDirection.SEND)) {
-                            var13 = data.getMessage().getContent().getUserInfo();
+                    if(holder.rightIconView.getVisibility() == View.VISIBLE) {
+                        if(data.getUserInfo() != null && data.getMessageDirection().equals(MessageDirection.RECEIVE)) {
+                            var13 = data.getUserInfo();
                             var15 = var13.getPortraitUri();
-                            if (var15 != null) {
-                                holder.leftIconView.setImageURI(var15);
+                            if(var15 != null) {
+                                Glide.with(mContext)
+                                        .load(var15)
+                                        .placeholder(R.drawable.rc_loading)
+                                        .into(holder.rightIconView);
+                            }
+                        } else if(!TextUtils.isEmpty(data.getSenderUserId())) {
+                            var13 = data.getMessage().getContent().getUserInfo();
+                            if(var13 != null && var13.getPortraitUri() != null) {
+                                Glide.with(mContext)
+                                        .load(var13.getPortraitUri())
+                                        .placeholder(R.drawable.rc_loading)
+                                        .into(holder.rightIconView);
+                            }
+                        }
+                    } else if(holder.leftIconView.getVisibility() == View.VISIBLE) {
+                        var13 = null;
+                        if(data.getMessageDirection().equals(MessageDirection.RECEIVE)) {
+                            if(data.getUserInfo() != null) {
+                                var13 = data.getUserInfo();
+                            } else if(data.getMessage() != null && data.getMessage().getContent() != null) {
+                                var13 = data.getMessage().getContent().getUserInfo();
+                            }
+
+                            if(var13 != null) {
+                                var15 = var13.getPortraitUri();
+                                if(var15 != null) {
+                                    Glide.with(mContext)
+                                            .load(var15)
+                                            .placeholder(R.drawable.rc_loading)
+                                            .into(holder.leftIconView);
+                                }
+                            }
+                        }  else if(!TextUtils.isEmpty(data.getSenderUserId())) {
+                            var13 = data.getMessage().getContent().getUserInfo();
+                            if(var13 != null && var13.getPortraitUri() != null) {
+                                Glide.with(mContext)
+                                        .load(var13.getPortraitUri())
+                                        .placeholder(R.drawable.rc_loading)
+                                        .into(holder.leftIconView);
                             }
                         }
                     }
+
                     if(tag.hide()) {
                         holder.time.setVisibility(View.GONE);
                     } else {
@@ -258,7 +346,6 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
             }
         }
     }
-
 
     private void setGravity(View view, int gravity) {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();

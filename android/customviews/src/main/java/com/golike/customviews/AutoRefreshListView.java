@@ -152,14 +152,15 @@ public class AutoRefreshListView extends ListView {
     }
 
     private void addRefreshView(Context context) {
-        this.refreshHeader = (ViewGroup) View.inflate(context, R.layout.rc_refresh_list_view, (ViewGroup)null);
-        this.addHeaderView(this.refreshHeader, (Object)null, false);
+        this.refreshHeader = (ViewGroup) View.inflate(context, R.layout.ee_refresh_list_view, null);
+        this.addHeaderView(this.refreshHeader, null, false);
     }
 
     private void initRefreshListener() {
         OnScrollListener listener = new OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(scrollState == 0 && AutoRefreshListView.this.state == AutoRefreshListView.State.RESET) {
+                //&& AutoRefreshListView.this.state == AutoRefreshListView.State.RESET
+                if(scrollState == 0 ) {
                     boolean reachTop = AutoRefreshListView.this.getFirstVisiblePosition() < AutoRefreshListView.this.getHeaderViewsCount() && AutoRefreshListView.this.getCount() > AutoRefreshListView.this.getHeaderViewsCount();
                     if(reachTop) {
                         AutoRefreshListView.this.onRefresh(true);
@@ -181,33 +182,41 @@ public class AutoRefreshListView extends ListView {
 
     private void onRefresh(boolean start) {
         if(this.refreshListener != null) {
+            //第一个消息item
             View firstVisibleChild = this.getChildAt(this.getHeaderViewsCount());
             if(firstVisibleChild != null) {
+                //获取其在ViewGroup距离顶部的高度
                 this.offsetY = firstVisibleChild.getTop();
             }
-
+            //开始，开始刷新，模式不是结束
             if(start && this.refreshableStart && this.mode != AutoRefreshListView.Mode.END) {
+                //设置当前模式--开始
                 this.currentMode = AutoRefreshListView.Mode.START;
+                //设置当前状态--正在刷新
                 this.state = AutoRefreshListView.State.REFRESHING;
+                //调用外部接口方法
                 this.refreshListener.onRefreshFromStart();
-            } else if(this.refreshableEnd && this.mode != AutoRefreshListView.Mode.START) {
+            } else
+            //刷新结束，模式不是开始
+            if(this.refreshableEnd && this.mode != AutoRefreshListView.Mode.START) {
+                //设置当前模式--结束
                 this.currentMode = AutoRefreshListView.Mode.END;
+                //设置当前状态--正在刷新
                 this.state = AutoRefreshListView.State.REFRESHING;
+                //调用外部接口方法
                 this.refreshListener.onRefreshFromEnd();
             }
-
             this.updateRefreshView();
         }
 
     }
 
     private void updateRefreshView() {
-
-        switch(AutoRefreshListView.State.values()[this.state.ordinal()].ordinal()) {
-            case 1:
+        switch(this.state) {
+            case REFRESHING:
                 this.getRefreshView().getChildAt(0).setVisibility(VISIBLE);
                 break;
-            case 2:
+            case RESET:
                 if(this.currentMode == AutoRefreshListView.Mode.START) {
                     this.refreshHeader.getChildAt(0).setVisibility(GONE);
                 }
@@ -216,8 +225,8 @@ public class AutoRefreshListView extends ListView {
     }
 
     private ViewGroup getRefreshView() {
-        switch(AutoRefreshListView.Mode.values()[this.currentMode.ordinal()].ordinal()) {
-            case 1:
+        switch(this.currentMode) {
+            case  START:
             default:
                 return this.refreshHeader;
         }
@@ -262,14 +271,14 @@ public class AutoRefreshListView extends ListView {
 
     private boolean onTouchEventInternal(MotionEvent event) {
         switch(event.getAction()) {
-            case 0:
+            case MotionEvent.ACTION_DOWN:
                 this.onTouchBegin(event);
                 break;
-            case 1:
-            case 3:
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 this.onTouchEnd();
                 break;
-            case 2:
+            case MotionEvent.ACTION_MOVE:
                 this.onTouchMove(event);
         }
 
@@ -303,25 +312,26 @@ public class AutoRefreshListView extends ListView {
     }
 
     public interface OnRefreshListener {
+        //开始下拉刷新
         void onRefreshFromStart();
-
+        //结束下拉刷新
         void onRefreshFromEnd();
     }
 
-    public static enum Mode {
+    public enum Mode {
         START,
         END,
         BOTH;
 
-        private Mode() {
+        Mode() {
         }
     }
 
-    public static enum State {
+    public enum State {
         REFRESHING,
         RESET;
 
-        private State() {
+        State() {
         }
     }
 }

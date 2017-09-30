@@ -111,7 +111,7 @@ public class PluginAdapter {
 
     private void initView(Context context, ViewGroup viewGroup) {
         this.mLayoutInflater = LayoutInflater.from(context);
-        this.mPluginPager = (ViewGroup)this.mLayoutInflater.inflate(R.layout.rc_ext_plugin_pager, (ViewGroup)null);
+        this.mPluginPager = (ViewGroup)this.mLayoutInflater.inflate(R.layout.ee_ext_plugin_pager, (ViewGroup)null);
         Integer height = Integer.valueOf((int)context.getResources().getDimension(R.dimen.rc_extension_board_height));
         this.mPluginPager.setLayoutParams(new RelativeLayout.LayoutParams(-1, height.intValue()));
 
@@ -170,7 +170,7 @@ public class PluginAdapter {
 
     private void initIndicator(int pages, LinearLayout indicator) {
         for(int i = 0; i < pages; ++i) {
-            ImageView imageView = (ImageView)this.mLayoutInflater.inflate(R.layout.rc_ext_indicator, (ViewGroup)null);
+            ImageView imageView = (ImageView)this.mLayoutInflater.inflate(R.layout.ee_ext_indicator, (ViewGroup)null);
             imageView.setImageResource(R.drawable.rc_ext_indicator);
             indicator.addView(imageView);
             if(pages <= 1) {
@@ -256,7 +256,7 @@ public class PluginAdapter {
             PluginAdapter.PluginItemAdapter.ViewHolder holder;
             if(convertView == null) {
                 holder = new PluginAdapter.PluginItemAdapter.ViewHolder();
-                convertView = PluginAdapter.this.mLayoutInflater.inflate(R.layout.rc_ext_plugin_item, (ViewGroup)null);
+                convertView = PluginAdapter.this.mLayoutInflater.inflate(R.layout.ee_ext_plugin_item, (ViewGroup)null);
                 holder.imageView = (ImageView)convertView.findViewById(R.id.rc_ext_plugin_icon);
                 holder.textView = (TextView)convertView.findViewById(R.id.rc_ext_plugin_title);
                 convertView.setTag(holder);
@@ -294,7 +294,7 @@ public class PluginAdapter {
         }
 
         public Object instantiateItem(ViewGroup container, int position) {
-            GridView gridView = (GridView)PluginAdapter.this.mLayoutInflater.inflate(R.layout.rc_ext_plugin_grid_view, (ViewGroup)null);
+            GridView gridView = (GridView)PluginAdapter.this.mLayoutInflater.inflate(R.layout.ee_ext_plugin_grid_view, (ViewGroup)null);
             gridView.setAdapter(PluginAdapter.this.new PluginItemAdapter(position * PluginAdapter.this.mPluginCountPerPage, this.items));
             container.addView(gridView);
             return gridView;

@@ -42,11 +42,11 @@ public class VoiceMessageItemProvider extends MessageProvider<VoiceMessage> {
     }
 
     public View newView(Context context, ViewGroup group) {
-        View view = LayoutInflater.from(context).inflate(R.layout.rc_item_voice_message, (ViewGroup)null);
+        View view = LayoutInflater.from(context).inflate(R.layout.ee_item_voice_message, (ViewGroup)null);
         VoiceMessageItemProvider.ViewHolder holder = new VoiceMessageItemProvider.ViewHolder();
-        holder.left = (TextView)view.findViewById(R.id.rc_left);
-        holder.right = (TextView)view.findViewById(R.id.rc_right);
-        holder.img = (ImageView)view.findViewById(R.id.rc_img);
+        holder.left = (TextView)view.findViewById(R.id.ee_left);
+        holder.right = (TextView)view.findViewById(R.id.ee_right);
+        holder.img = (ImageView)view.findViewById(R.id.ee_img);
         holder.unread = (ImageView)view.findViewById(R.id.rc_voice_unread);
         view.setTag(holder);
         return view;

@@ -164,6 +164,7 @@ public class Message implements Parcelable {
         this.setReceivedTime(ParcelUtils.readLongFromParcel(in).longValue());
         this.setSentTime(ParcelUtils.readLongFromParcel(in).longValue());
         this.setObjectName(ParcelUtils.readFromParcel(in));
+        this.setContent((MessageContent)ParcelUtils.readFromParcel(in, loader));
         this.setExtra(ParcelUtils.readFromParcel(in));
         this.setUId(ParcelUtils.readFromParcel(in));
         this.setConversationType(ConversationType.setValue(ParcelUtils.readIntFromParcel(in).intValue()));
@@ -173,12 +174,14 @@ public class Message implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        ParcelUtils.writeToParcel(dest, this.getContent() != null?this.getContent().getClass().getName():null);
         ParcelUtils.writeToParcel(dest, this.getTargetId());
         ParcelUtils.writeToParcel(dest, Integer.valueOf(this.getMessageId()));
         ParcelUtils.writeToParcel(dest, this.getSenderUserId());
         ParcelUtils.writeToParcel(dest, Long.valueOf(this.getReceivedTime()));
         ParcelUtils.writeToParcel(dest, Long.valueOf(this.getSentTime()));
         ParcelUtils.writeToParcel(dest, this.getObjectName());
+        ParcelUtils.writeToParcel(dest, this.getContent());
         ParcelUtils.writeToParcel(dest, this.getExtra());
         ParcelUtils.writeToParcel(dest, this.getUId());
         ParcelUtils.writeToParcel(dest, Integer.valueOf(this.getConversationType().getValue()));
