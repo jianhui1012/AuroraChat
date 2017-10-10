@@ -337,7 +337,7 @@ public class RNChatUIManager extends SimpleViewManager<ChatView> implements Acti
         Message message = Message.obtain(mTargetId, mConversationType, messageContent);
         message.setMessageDirection(Message.MessageDirection.SEND);
         message.setUId(genMsguid());
-        message.setSenderUserId(mTargetId);
+        message.setSenderUserId(messageContent.getUserInfo().getUserId());
         message.setSentTime(Calendar.getInstance().getTimeInMillis());
         message.setTargetId(mTargetId);
         EventBus.getDefault().post(message);

@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {View, ListView, StyleSheet, DeviceEventEmitter} from "react-native";
+import {View, StyleSheet, DeviceEventEmitter} from "react-native";
 import ChatView from "../modules/rychatview";
 var Dimensions = require('Dimensions');
-var DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class ChatUI extends Component {
     constructor(props) {
@@ -13,7 +12,6 @@ class ChatUI extends Component {
         this.count = 10;
         this.historyMsgs = [];
         this.state = {
-            dataSource: DataSource.cloneWithRows([]),
             noMoreData: false,
             curChatInfo: {}
         };
@@ -21,15 +19,12 @@ class ChatUI extends Component {
 
     componentDidMount() {
         //初始化聊天信息
-        let result = this.initChatInfo();
+        this.initChatInfo();
         setTimeout(()=>{
             this.refreshList(this.offset, this.count);
-        },1000);
+        },2000);
         //设置来自原生的消息的监听
         this.subscription = DeviceEventEmitter.addListener('uploadMsg', this.onUpdateMessage);
-        result.then((code) => {
-            //console.log(code)
-        });
     }
 
     componentWillUnmount() {
@@ -60,7 +55,7 @@ class ChatUI extends Component {
                 "portraitUri": "http://img3.imgtn.bdimg.com/it/u=3449010647,3468950612&fm=213&gp=0.jpg"
             };
             let newMsg = this.getTypeMsg(msg, sendUserInfo, msg.senduserid == this.userid);
-            console.warn("newMsg:"+JSON.stringify(newMsg));
+            //console.warn("newMsg:"+JSON.stringify(newMsg));
             this.historyMsgs.push(newMsg);
         }
 
@@ -131,9 +126,9 @@ class ChatUI extends Component {
 
     //utc时间转化成本地时间
     utcToLocalTime(utctime) {
-        let localtime = utctime;
+        //let localtime = utctime;
         //localtime -= new Date().getTimezoneOffset() * 60;
-        return localtime * 1000 + "";
+        return utctime + "";
     }
 
     //下拉刷新
@@ -142,44 +137,34 @@ class ChatUI extends Component {
             console.warn("数据已加载完毕");
             return;
         }
-        console.warn(this.offset);
+        //console.warn(this.offset);
         this.refreshList(this.offset, this.count);
     }
 
     //向消息服务器发送所有类型消息
     async onSendTextPrivMsg(userid, contentMsg, msguid) {
+        //处理上传文本消息
     }
 
     async onSendImagePrivMsg(userid, imageObject, msguid) {
         console.warn("uri:" + imageObject['uri'] + ",md5:" + imageObject['md5']);
-        var result = await DataStore.uploadFile(imageObject['uri'], imageObject['md5']);
-        if (result != 0) {
-            console.warn('上传图片失败');
-            return "";
-        }
-        var args = {
-            'userid': userid,
-            'content': imageObject['md5'],
-            'msguid': msguid
-        };
-        var url = DataStore.imstoreQuery("sendimage", args);
-        var response = await fetch(url);
-        var responseJson = await response.json();
-        if (responseJson.response.error) {
-            console.warn(responseJson.response.message);
-        }
+        //处理上传图片消息
     }
 
     async onSendVoicePrivMsg(userid, voiceObject, msguid, duration) {
+        //处理上传语音消息
     }
 
     async onSendTextGroupMsg(groupid, contentMsg, msguid) {
+        //处理上传群组文本消息
     }
 
     async onSendImageGroupMsg(groupid, imageObject, msguid) {
+        //处理上传群组图片消息
     }
 
     async onSendVoiceGroupMsg(groupid, voiceObject, msguid, duration) {
+        //处理上传群组语音消息
     }
 
     //从原生向JS发送消息
