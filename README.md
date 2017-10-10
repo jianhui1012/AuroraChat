@@ -6,6 +6,8 @@ AuroraChat 是个基于融云UI库的即时通讯（IM）RN组件。
 
 支持 Android，React Native，暂不支持iOS 平台。
 
+<img src="https://github.com/huangminlinux/resource/blob/master/IMUIPick%402x.png" alt="IMUI" width=960/>
+
 ## 功能
 
 可以基于本 UI 库实现的功能：
@@ -30,3 +32,7 @@ AuroraChat 是个基于融云UI库的即时通讯（IM）RN组件。
 - [ChatView](./docs/Android/message_list_usage_zh.md) (聊天组件)
     - [EditExtension](./Android/chatinput/README.md) (输入组件)
     - [AutoRefreshListView](./Android/chatinput/README.md) (消息列表组件)
+
+## Contribute
+
+欢迎提交 PR 与提出 Issues。
