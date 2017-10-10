@@ -28,5 +28,5 @@ AuroraChat 是个基于融云UI库的即时通讯（IM）RN组件。
 
 ### Android
 - [ChatView](./docs/Android/message_list_usage_zh.md) (聊天组件)
---- [EditExtension](./Android/chatinput/README.md) (输入组件)
---- [AutoRefreshListView](./Android/chatinput/README.md) (消息列表组件)
+    - [EditExtension](./Android/chatinput/README.md) (输入组件)
+    - [AutoRefreshListView](./Android/chatinput/README.md) (消息列表组件)
