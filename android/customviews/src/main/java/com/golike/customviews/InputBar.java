@@ -7,27 +7,28 @@ public class InputBar {
     public InputBar() {
     }
 
-    public static enum Type {
+    public enum Type {
         TYPE_DEFAULT,
         TYPE_CS_ROBOT,
         TYPE_CS_HUMAN,
         TYPE_CS_ROBOT_FIRST,
         TYPE_CS_HUMAN_FIRST;
 
-        private Type() {
+        Type() {
         }
     }
 
-    public static enum Style {
+    public enum Style {
         STYLE_SWITCH_CONTAINER_EXTENSION(291),
         STYLE_SWITCH_CONTAINER(288),
         STYLE_CONTAINER_EXTENSION(35),
         STYLE_EXTENSION_CONTAINER(800),
-        STYLE_CONTAINER(32);
+        STYLE_CONTAINER(32),
+        STYLE_EMOTION(23);
 
         int v;
 
-        private Style(int v) {
+        Style(int v) {
             this.v = v;
         }
 
@@ -36,9 +37,9 @@ public class InputBar {
             InputBar.Style[] arr$ = values();
             int len$ = arr$.length;
 
-            for(int i$ = 0; i$ < len$; ++i$) {
+            for (int i$ = 0; i$ < len$; ++i$) {
                 InputBar.Style style = arr$[i$];
-                if(style.v == v) {
+                if (style.v == v) {
                     result = style;
                     break;
                 }

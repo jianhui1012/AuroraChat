@@ -223,7 +223,7 @@ public class AndroidEmoji {
 
         private EmojiImageSpan(int codePoint) {
             if(AndroidEmoji.sEmojiMap.containsKey(Integer.valueOf(codePoint))) {
-                this.mDrawable = AndroidEmoji.mContext.getResources().getDrawable(((AndroidEmoji.EmojiInfo)AndroidEmoji.sEmojiMap.get(Integer.valueOf(codePoint))).resId);
+                this.mDrawable = AndroidEmoji.mContext.getResources().getDrawable((AndroidEmoji.sEmojiMap.get(Integer.valueOf(codePoint))).resId);
                 int width = this.mDrawable.getIntrinsicWidth() - (int)(4.0F * AndroidEmoji.density);
                 int height = this.mDrawable.getIntrinsicHeight() - (int)(4.0F * AndroidEmoji.density);
                 this.mDrawable.setBounds(0, 0, width > 0?width:0, height > 0?height:0);

@@ -161,6 +161,8 @@ public class EditExtension  extends LinearLayout {
                 break;
             case STYLE_SWITCH_CONTAINER:
                 this.setSC();
+            case STYLE_EMOTION:
+                this.setE();
         }
 
     }
@@ -863,6 +865,14 @@ public class EditExtension  extends LinearLayout {
 
     private void setC() {
         this.mMainBar.removeAllViews();
+        this.mMainBar.addView(this.mContainerLayout);
+    }
+
+    private void setE() {
+        this.mMainBar.removeAllViews();
+        View imageView=mContainerLayout.findViewById(R.id.rc_edit_text);
+        imageView.setVisibility(GONE);
+        //this.mContainerLayout.removeView(imageView);
         this.mMainBar.addView(this.mContainerLayout);
     }
 

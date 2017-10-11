@@ -289,7 +289,7 @@ public class EmoticonTabAdapter {
 
     private View getTabIcon(Context context, IEmoticonTab tab) {
         Drawable drawable = tab.obtainTabDrawable(context);
-        View item = LayoutInflater.from(context).inflate(R.layout.ee_ext_emoticon_tab_item, (ViewGroup)null);
+        View item = LayoutInflater.from(context).inflate(R.layout.ee_ext_emoticon_tab_item, null);
         item.setLayoutParams(new RelativeLayout.LayoutParams(RongUtils.dip2px(60.0F), RongUtils.dip2px(36.0F)));
         ImageView iv = (ImageView)item.findViewById(R.id.rc_emoticon_tab_iv);
         iv.setImageDrawable(drawable);

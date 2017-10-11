@@ -7,6 +7,7 @@
             <enum name="EC" value="0x320" />
             <enum name="CE" value="0x023" />
             <enum name="C" value="0x020" />
+            <enum name="E" value="0x017" />
         </attr>
     </declare-styleable>
 

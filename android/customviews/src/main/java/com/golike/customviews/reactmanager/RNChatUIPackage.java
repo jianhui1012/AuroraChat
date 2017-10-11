@@ -30,6 +30,7 @@ public class RNChatUIPackage implements ReactPackage {
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         List<ViewManager> viewManagers = new ArrayList<>();
         viewManagers.add(new RNChatUIManager(reactContext));
+        viewManagers.add(new RNEmotionViewManager());
         return  viewManagers;
     }
 }
