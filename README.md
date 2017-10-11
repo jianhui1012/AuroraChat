@@ -7,7 +7,7 @@ AuroraChat 是个基于融云UI库的即时通讯（IM）RN组件。
 支持 Android，暂不支持iOS 平台。
 
 <div align=center>
-<img src="https://gitee.com/lifedjh/AuroraChat/tree/master/screenshot/应用宝动态截屏2017101102.gif" width="400" height="400" alt="亦菲表演机器猫"/>
+<img src="https://gitee.com/lifedjh/AuroraChat/tree/master/screenshot/应用宝动态截屏2017101102.gif?raw=true" width="400" height="400" alt="演示"/>
 </div>
 
 ## 功能
