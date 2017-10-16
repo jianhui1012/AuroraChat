@@ -2,11 +2,13 @@
  * Created by admin on 2017/10/11.
  */
 import React, {Component} from "react";
-import {View, KeyboardAvoidingView,
-TextInput, StyleSheet, DeviceEventEmitter
+import {
+    View, KeyboardAvoidingView,
+    TextInput, StyleSheet, DeviceEventEmitter,
+    Button
 }
-from
-"react-native";
+    from
+        "react-native";
 import EmotionView from "../modules/emotionview";
 var Dimensions = require('Dimensions');
 
@@ -18,7 +20,8 @@ class EmotionUI extends Component {
         super(props);
         this.state = {
             selection: {start: 0, end: 0},
-            value: "Hello World"
+            value: "Hello World",
+            isShow: false
         };
     }
 
@@ -50,7 +53,7 @@ class EmotionUI extends Component {
         //var length = this.state.value.length;
         return (
             <View style={styles.container}>
-
+                <View style={styles.textInput}>
                     <TextInput
                         multiline={true}
                         onChangeText={(value) => this.setState({value})}
@@ -60,9 +63,14 @@ class EmotionUI extends Component {
                         style={styles.default}
                         value={this.state.value}
                     />
-
-                    <EmotionView style={styles.emView}/>
-
+                    <Button style={{  flex: 1}}
+                        onPress={()=>{
+                           this.setState({isShow:true});
+                        }}
+                        title="表情"
+                    />
+                </View>
+                <EmotionView style={styles.emView} isShow={this.state.isShow}/>
             </View>
         );
     }
@@ -73,11 +81,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
     },
+    textInput: {
+        flex: 1,
+        flexDirection: 'row',
+    },
     default: {
         height: 26,
         borderWidth: 0.5,
         borderColor: '#0f0f0f',
-        flex: 1,
+        flex: 4,
         fontSize: 13,
         padding: 4,
     },

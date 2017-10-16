@@ -4,7 +4,7 @@
 'use strict';
 import React  from 'react';
 var UIManager = require('UIManager');
-import { requireNativeComponent, View ,findNodeHandle} from 'react-native';
+import {requireNativeComponent, View, findNodeHandle} from 'react-native';
 
 const CHATVIEW_REF = 'RCTEmotionView';
 
@@ -12,7 +12,7 @@ class EmotionView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.onChatUIEvent=this.onChatUIEvent.bind(this);
+        this.onSetEmotionEvent = this.onSetEmotionEvent.bind(this);
     }
 
     getChatViewHandle() {
@@ -27,31 +27,32 @@ class EmotionView extends React.Component {
         this._mounted = false;
     }
 
-    onChatUIEvent(event) {
+    onSetEmotionEvent(event) {
         if (!this._mounted)
             return;
         var cmd = event.nativeEvent.cmd;
         //console.warn("_mounted:"+this._mounted+",event:"+cmd);
-        if (cmd == 'OnRefresh') {
-            if (this.props.OnRefresh) {
-                this.props.OnRefresh();
-            }
+        if (cmd == 'setEmotionBorad') {
         }
     }
 
     render() {
         return (<RCTEmotionView ref={CHATVIEW_REF}
-                           style={this.props.style} >
+                                style={this.props.style}  isShow={this.props.isShow}   onSetEmotionEvent={ this.onSetEmotionEvent}>
         </RCTEmotionView>);
     }
 }
 
 EmotionView.propTypes = {
-    isOnRefresh: React.PropTypes.bool,
-    chatInfo: React.PropTypes.object,
+    isShow: React.PropTypes.bool,
     ...View.propTypes // 包含默认的View的属性
 };
 
-var RCTEmotionView = requireNativeComponent(CHATVIEW_REF, EmotionView);
+
+var RCTEmotionView = requireNativeComponent(CHATVIEW_REF, EmotionView, {
+    nativeOnly: {
+        onSetEmotionEvent: true,
+    }
+});
 
 module.exports = EmotionView;

@@ -2,7 +2,6 @@ package com.golike.customviews.reactmanager;
 
 import android.app.Activity;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -17,8 +16,6 @@ import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.EventDispatcher;
-import com.golike.customviews.ChatView;
-import com.golike.customviews.DefaultExtensionModule;
 import com.golike.customviews.EmotionExtension;
 import com.golike.customviews.emoticon.IEmojiItemClickListener;
 
@@ -90,6 +87,11 @@ public class RNEmotionViewManager extends SimpleViewManager<EmotionExtension> {
         }
     }
 
+    public void setEmotionBorad() {
+
+    }
+
+
     /***
      * send onChatUIEvent from native modules to js bundle
      * @param cmd
@@ -98,7 +100,7 @@ public class RNEmotionViewManager extends SimpleViewManager<EmotionExtension> {
         WritableMap data = Arguments.createMap();
         data.putDouble("target", mEmotionExtension.getId());
         data.putString("cmd", cmd);
-        Event event = new RNChatUIEvent(mEmotionExtension.getId(), data);
+        Event event = new RNSetEmotionEvent(mEmotionExtension.getId(), data);
         EventDispatcher eventDispatcher =
                 mReactContext.getNativeModule(UIManagerModule.class).getEventDispatcher();
         eventDispatcher.dispatchEvent(event);
@@ -120,14 +122,15 @@ public class RNEmotionViewManager extends SimpleViewManager<EmotionExtension> {
 
 
     /***
-     * set if need onRefresh
-     * @param chatInputView
-     * @param isOnRefresh
+     * set if need show emotionView
+     * @param emotionExtension
+     * @param isShow
      */
-    @ReactProp(name = "isOnRefresh")
-    public void setIsOnRefresh(ChatView chatInputView, boolean isOnRefresh) {
-        if (isOnRefresh)
-            chatInputView.mHasMoreLocalMessages = false;
+    @ReactProp(name = "isShow")
+    public void isShow(EmotionExtension emotionExtension, boolean isShow) {
+        if (emotionExtension == null)
+            return;
+        emotionExtension.setEmoticonBoard();
     }
 
 
@@ -135,11 +138,11 @@ public class RNEmotionViewManager extends SimpleViewManager<EmotionExtension> {
     public Map<String, Object> getExportedCustomBubblingEventTypeConstants() {
         return MapBuilder.<String, Object>builder()
                 .put(
-                        "topChatUIEvent",
+                        "topSetEmotionEvent",
                         MapBuilder.of(
                                 "phasedRegistrationNames",
                                 MapBuilder.of(
-                                        "bubbled", "onChatUIEvent", "captured", "onChatUIEventCapture")))
+                                        "bubbled", "onSetEmotionEvent", "captured", "onSetEmotionEventCapture")))
                 .build();
     }
 

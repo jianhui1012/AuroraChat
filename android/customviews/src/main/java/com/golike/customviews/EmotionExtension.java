@@ -52,7 +52,6 @@ public class EmotionExtension extends LinearLayout {
     private Context mContext;
     private ViewGroup mExtensionBar;
     private EmoticonTabAdapter mEmotionTabAdapter;
-    private ImageView mEmoticonToggle;
     boolean isKeyBoardActive = false;
     private IEmojiItemClickListener mIEmojiItemClickListener;
 
@@ -189,62 +188,40 @@ public class EmotionExtension extends LinearLayout {
 
     private void initView() {
         this.setOrientation(VERTICAL);
-        this.mExtensionBar = (ViewGroup) LayoutInflater.from(this.getContext()).inflate(R.layout.emotion_extension_bar, (ViewGroup) null);
-        this.mEmoticonToggle = (ImageView) this.mExtensionBar.findViewById(R.id.emoticon_toggle);
-        this.mEmoticonToggle.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (EmotionExtension.this.isSoftShowing()) {
-                    EmotionExtension.this.hideInputKeyBoard();
-                    EmotionExtension.this.getHandler().postDelayed(new Runnable() {
-                        public void run() {
-                            EmotionExtension.this.setEmoticonBoard();
-                        }
-                    }, 200L);
-                } else {
-                    EmotionExtension.this.setEmoticonBoard();
-                }
-            }
-        });
+        this.mExtensionBar = (ViewGroup) LayoutInflater.from(this.getContext()).inflate(R.layout.emotion_extension_bar,null);
         this.addView(this.mExtensionBar);
     }
 
     private void hideEmoticonBoard() {
         this.mEmotionTabAdapter.setVisibility(GONE);
-        this.mEmoticonToggle.setImageResource(R.drawable.rc_emotion_toggle_selector);
     }
 
-    private void setEmoticonBoard() {
+    public void setEmoticonBoard() {
         if (this.mEmotionTabAdapter.isInitialized()) {
             if (this.mEmotionTabAdapter.getVisibility() == VISIBLE) {
                 this.mEmotionTabAdapter.setVisibility(GONE);
-                this.mEmoticonToggle.setSelected(false);
-                this.mEmoticonToggle.setImageResource(R.drawable.rc_emotion_toggle_selector);
                 this.showInputKeyBoard();
             } else {
                 this.hideInputKeyBoard();
                 this.mEmotionTabAdapter.setVisibility(VISIBLE);
-                this.mEmoticonToggle.setSelected(true);
-                this.mEmoticonToggle.setImageResource(R.drawable.rc_keyboard_selector);
             }
         } else {
             this.hideInputKeyBoard();
             this.mEmotionTabAdapter.bindView(this);
             this.mEmotionTabAdapter.setVisibility(VISIBLE);
-            this.mEmoticonToggle.setSelected(true);
-            this.mEmoticonToggle.setImageResource(R.drawable.rc_keyboard_selector);
         }
     }
 
     private void hideInputKeyBoard() {
         InputMethodManager imm = (InputMethodManager) this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(this.mEmoticonToggle.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(this.mExtensionBar.getWindowToken(), 0);
         this.isKeyBoardActive = false;
     }
 
     private void showInputKeyBoard() {
         InputMethodManager imm = (InputMethodManager) this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(this.mEmoticonToggle, 0);
-        this.mEmoticonToggle.setSelected(false);
+        imm.showSoftInput(this.mExtensionBar, 0);
+        this.mExtensionBar.setSelected(false);
         this.isKeyBoardActive = true;
     }
 
